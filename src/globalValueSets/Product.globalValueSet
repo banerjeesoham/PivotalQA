@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Alpine Chorus for Pivotal Data Suite</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>CSR</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Datometry Hyper-Q for Pivotal Data Suite</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Datometry Workload Manager</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Gitlab Enterprise Plus for Pivotal Cloud Foundry</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Greenplum MapReduce</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>ISS Knowtify for Pivotal Cloud Foundry</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>MADlib</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Open Source Apache HTTP Server</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Open Source Apache Tomcat</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Open Source Groovy &amp; Grails</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Open Source PostgreSQL</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Open Source RabbitMQ</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Open Source Redis</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Open Source Spring.io</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Open Source SpringXD</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>OSS Support for Spring Cloud Data Flow</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Cloud Cache</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Cloud Foundry Elastic Runtime</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Cloud Foundry Elastic Runtime Suite</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Cloud Foundry Operations Manager</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Cloud Foundry Operations Manager v2</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Command Center</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Data Dispatch</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal GemFire</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal GemFire for Pivotal Cloud Foundry</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal GemFire XD</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal GPText</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Greenplum</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Greenplum Command Center</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Greenplum Text</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal HD</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal HDB</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal HDP</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Mobile Services Suite</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal R</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal RabbitMQ</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal RabbitMQ for Pivotal Cloud Foundry</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Services Suite</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Services Suite for Pivotal Cloud Foundry</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal tc Server</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Tracker Enterprise SaaS</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Tracker for Pivotal Cloud Foundry</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal VRP</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Web Server</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Web Services</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Redis for Pivotal Cloud Foundry</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>None</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+    </customValue>
+    <masterLabel>Product</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

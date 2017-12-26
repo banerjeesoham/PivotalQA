@@ -1,0 +1,40 @@
+<apex:page Controller="LoggedInUserController1"  showHeader="false" id="out" > 
+    <apex:form >
+    <style>
+        .nav_bar{
+            margin-top: -3%;
+            text-align:right;
+        }
+        .nav_bar a{
+            color:white !important;
+            padding:5px;
+            padding-right:7px;
+            padding-left:7px;
+        }
+    </style>
+  
+       <!-- <apex:slds >
+            <div style="background-color:black;height:50px;">
+                <apex:image url="{!$Resource.logo}" width="4%" height="3%" style="background-color:black;text-align:left;"/> 
+                <div class="nav_bar">
+                 <apex:commandlink value="Knowledge" onclick="{!knowl}" immediate="true" action="{!knowl}"/>&nbsp;&nbsp;
+                <apex:commandlink value="Docs" action="https://docs.pivotal.io/" immediate="true" />&nbsp;&nbsp;
+                <apex:commandlink value="Training" action="https://pivotal.io/training" immediate="true" />&nbsp;&nbsp;
+                <apex:commandlink value="Downloads" action="https://network.pivotal.io/" immediate="true" />&nbsp;&nbsp;
+                <apex:commandlink value="Account" rendered="{!IF(AND($Profile.Name !='Customer Registered User', $Profile.Name !='Customer Community Users',$Profile.Name !='pivotalcustomersupport Profile'), true, false)}" onclick="{!save}"  immediate="true" action="{!save}"/>&nbsp;
+                <apex:commandlink value="Contact" rendered="{!IF(AND($Profile.Name !='Customer Registered User', $Profile.Name !='Customer Community Users',$Profile.Name !='pivotalcustomersupport Profile'), true, false)}" onclick="{!con}"  immediate="true" action="{!con}"/>&nbsp;
+               <!--<apex:commandlink value="Case" rendered="{!IF(AND($Profile.Name !='Customer Registered User', $Profile.Name !='Customer Community Users',$Profile.Name !='demo Profile'), true, false)}" onclick="{!ca}"  immediate="true" action="{!ca}"/>&nbsp;
+                <apex:commandlink value="Case" rendered="{!IF(AND($Profile.Name !='Customer Registered User', $Profile.Name !='Customer Community Users',$Profile.Name !='pivotalcustomersupport Profile'), true, false)}"  action="/apex/PortalCaseCreation" reRender="out"/>&nbsp;
+                <apex:commandlink value="Community" onclick="{!foru}" immediate="true" action="{!foru}"/>&nbsp;&nbsp;
+                
+                <apex:commandlink value="Login"  onclick="{!logi}"  immediate="true" action="{!logi}" rendered="{!IF(AND($Profile.Name =='pivotalcustomersupport Profile'), true, false)}"/>
+                </div>
+            </div></apex:slds> -->
+            <c:Home ></c:Home>
+            <apex:image url="{!$Resource.Pivotal_Image}" width="100%" height="100%" rendered="{!!isTech}"/>
+        
+        
+    </apex:form>
+    
+  
+</apex:page>

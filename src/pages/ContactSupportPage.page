@@ -1,0 +1,7 @@
+<apex:page showHeader="false" action="http://pivotalsupport.uberflipcontent.com/pdf-template-2/pivotal-support-contact-list" >
+   <!-- <script> 
+// window.onload = function() { 
+//          window.location.href = 'https://pivotalsupport.uberflipcontent.com/pdf-template-2/pivotal-support-contact-list';
+//      } 
+    </script> -->
+</apex:page>

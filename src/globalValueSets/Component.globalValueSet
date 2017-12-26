@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Ambari</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Applications</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Apps Manager</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Backup and Restore</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>BBR</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Blobstore</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>BOSH (OSS)</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Buildpacks</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>c2c Networking</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Catalog and Metadata</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Catalog issues</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>CF CLI</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Client / Loading tools</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Client Access Methods</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Client Tools</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Cloud Controller</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Communications</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Database Extensions</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Datanode</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>DDL and Utility Statements</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Diego</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Dispatch</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>DML</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Documentation</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Fault Tolerance</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Filespace / Tablespace</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Flume</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Functions and Languages</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ganglia</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Garden</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>gpexpand</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>gpload</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Hardware</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Hardware / Network</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Hbase</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>HDFS</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Hive</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Hue</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Installer</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Interconnect</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Kafka</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Knox</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>libhdfs3</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Load Balancer</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Loaders</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Management &amp; Monitoring</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Management Scripts Suite</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Management utilities</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Mapreduce</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Master / Segment mirroring</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Metrics</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Monitoring</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Nagios</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Native Client</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Networking</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>OLAP</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Oozie</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Operating System</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ops Manager</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Optimizer</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCC</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF Isolation Segments</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF Pipelines</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF Runtime for Windows</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pig</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Command Center</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pivotal Networks</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Procedural Languages</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PXF</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Query Execution and Performance</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Query Optimizer/Planner</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Query Planner/Optimizer/Execution</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Queues &amp; Querying</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ranger</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Replication</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Resource Management</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Resource Manager</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Security</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Service Broker</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Services</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Spark</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>SQL Parser</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Storage</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Tez</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>To Be Filled Later</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Transaction Management</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Upgrade</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Utilities</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Vacuum</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Volume Services</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Yarn</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Zookeeper</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+    </customValue>
+    <masterLabel>Component</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

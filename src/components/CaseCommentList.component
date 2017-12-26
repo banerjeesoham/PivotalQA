@@ -1,0 +1,28 @@
+<apex:component controller="CaseCommentListController" access="global" >
+<apex:attribute name="caseObj" type="Id" assignTo="{!caseId}" description="Case Record"/>
+
+<apex:attribute name="caseNumber" type="String"  description="Case Record"/>
+
+<!--<apex:attribute name="qlimit" type="Integer" assignTo="{!qlimitVals}"  description="Limit for query"/>-->
+<br/>
+Below are the Top 5 comments on the Case: {!caseNumber}.
+<br/>
+<br/>
+<apex:dataTable value="{!feedLst}" var="feed" rendered="{!message}" border="1">
+        <apex:column >
+            <apex:facet name="header">Commented By</apex:facet>
+            {!feed.CreatedBy.Name}
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">Comments</apex:facet>
+            {!feed.body}
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">Commented On</apex:facet>
+            <apex:outputText value="{0,date,MM/dd/yy}"> <apex:param value="{!feed.CreatedDate}" /> </apex:outputText>
+        </apex:column>
+    </apex:dataTable>
+  <apex:outputText value="" rendered="{!NOT(message)}"><b>This case does not have any comments.</b>
+  <br/></apex:outputText>
+<br/>
+</apex:component>

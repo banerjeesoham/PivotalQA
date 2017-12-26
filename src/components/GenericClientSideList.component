@@ -1,0 +1,2825 @@
+<apex:component controller="GenericClientSideListCtrl">
+
+<apex:attribute name="controlId" description="control Id" type="String" required="true" assignTo="{!controlId_p}" />
+<apex:attribute name="controlTitle" description="control Title" type="String" required="false" default=""/>
+<apex:attribute name="sObjectName" description="sObject Name" type="String" required="false" assignTo="{!sObjectName_p}" />
+<apex:attribute name="columnList" description="Columns list delimited by comma" type="String" required="false" assignTo="{!columnList_p}"/>
+<apex:attribute name="queryFilter" description="queryFilter" type="String" required="false"/>
+<apex:attribute name="hiddenColumnList" description="Extra columns not in the List" type="String" required="false"/>
+
+<apex:attribute name="showLetterFilter" description="showLetterFilter" type="boolean" required="false"  default="true" />
+<apex:attribute name="showListFilter" description="showListFilter" type="boolean" required="false" default="true"/>
+<apex:attribute name="showActionColumn" description="showActionColumn" type="boolean" required="false" default="false" assignTo="{!showActionColumn_p}"/>
+<apex:attribute name="showCheckColumn" description="showCheckColumn" type="boolean" required="false" default="true" assignTo="{!showCheckColumn_p}" />
+<apex:attribute name="showPagination" description="showPagination" type="boolean" required="false"  default="true" />
+<apex:attribute name="useRadio" description="useRadio" type="boolean" required="false"  default="false" />
+<apex:attribute name="isScrollable" description="isScrollable" type="boolean" required="false"  default="false" />
+<apex:attribute name="isServerSide" description="isServerSide" type="boolean" required="false"  default="false" />
+<apex:attribute name="useFixedWidth" description="useFixedWidth" type="boolean" required="false"  default="false" />
+<apex:attribute name="queryOnPageLoad" description="queryOnPageLoad" type="boolean" required="false"  default="true" />
+<apex:attribute name="queryIsBatch" description="queryIsBatch" type="boolean" required="false"  default="false" />
+
+<apex:attribute name="queryBatchCount" description="queryBatchCount" type="integer" required="false"  default="25000" />
+<apex:attribute name="queryMaxRecords" description="queryMaxRecords" type="integer" required="false"  default="50000" />
+
+
+<apex:includescript value="{!URLFOR($Resource.Common_JS,'html5-bolerplate.js')}" />
+<apex:includescript value="{!URLFOR($Resource.Common_JS,'jquery_1.9.1.js')}" />
+<apex:includescript value="{!URLFOR($Resource.Common_JS,'jquery-ui_1.10.3.js')}" />    
+<apex:includescript value="{!URLFOR($Resource.Common_JS,'handlebars-v1.3.0.js')}" />   
+<apex:includescript value="{!URLFOR($Resource.Common_JS,'spin.min.js')}" /> 
+<apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+
+<script language="javascript">
+    var $j = $j? $j:jQuery.noConflict();
+</script>
+
+<script language="javascript">
+        /* STRING EXTENSIONS */
+
+        if (typeof String.prototype.startsWith != 'function') {
+            String.prototype.startsWith = function (str) {
+                return this.indexOf(str) == 0;
+            };
+        }
+
+        if (typeof String.prototype.endsWith != 'function') {
+            String.prototype.endsWith = function (str) {
+                return this.slice(-str.length) == str;
+            };
+        }
+
+        if (typeof String.prototype.contains != 'function') {
+            String.prototype.contains = function (it) { return this.indexOf(it) != -1; };
+        }
+
+        if (typeof String.prototype.toISODate != 'function') {
+            String.prototype.toISODate = function () {
+                var dateSplitter = this.split("/");
+                //var s =  parseInt(dateSplitter[0]) + '-'+ parseInt(dateSplitter[1]) + '-' + parseInt(dateSplitter[2]);
+                var dd = parseInt(dateSplitter[0])+1;
+                var s =  dateSplitter[1] + '/'+ dd + '/' + parseInt(dateSplitter[2]);
+                var d = new Date(s);
+                return d.toISODate();
+            };
+        }
+
+        if (typeof String.prototype.toISODatetime != 'function') {
+            String.prototype.toISODatetime = function () {
+
+                var d = new Date(this);
+                return d.toISODatetime();
+            };
+        }
+
+        if (typeof String.prototype.toDate != 'function') {
+            String.prototype.toDate = function () {
+                //function pad(n) { return n < 10 ? '0' + n : n }
+                //var dateSplitter = typeValue.split("/");
+                //var d =  pad(dateSplitter[0]) + '/'+ pad(dateSplitter[1]) + '/' + pad(dateSplitter[2]);
+                return new Date(this);
+            };
+        }
+
+        /***** NUMBER ****/
+
+        if (typeof Number.prototype.toISODate != 'function') {
+            Number.prototype.toISODate = function () {
+                var d = new Date(this);
+                return d.toISODate();
+            };
+        }
+
+        if (typeof Number.prototype.toISODatetime != 'function') {
+            Number.prototype.toISODatetime = function () {
+                var d = new Date(this);
+                //return d.getUTCFullYear() + '-'
+                //    + pad(d.getUTCMonth() + 1) + '-'
+                //    + pad(d.getUTCDate());
+                return d.toISODatetime();
+            };
+        }
+
+        if (typeof Number.prototype.toDate != 'function') {
+            Number.prototype.toDate = function(){
+                return new Date(this);
+                //var d = new Date(this);
+            };
+        }
+
+        /***** DATE ****/
+
+        if (typeof Date.prototype.toNewDate != 'function') {
+            Date.prototype.toNewDate = function(){
+                    return new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds() );
+            };
+        }
+
+        if (typeof Date.prototype.toDate != 'function') {
+            Date.prototype.toDate = function(){
+                    return this;
+            };
+        }
+
+        
+        if (typeof Date.prototype.toUTCDate != 'function') {
+            Date.prototype.toUTCDate = function(){
+                 //return this;
+                 return new Date(this.getUTCFullYear(), this.getUTCMonth(), this.getUTCDate(), this.getUTCHours(), this.getUTCMinutes(), this.getUTCSeconds() );
+            };
+        }
+
+        if (typeof Date.prototype.toISODate != 'function') {
+            Date.prototype.toISODate = function () {
+                function pad(n) { return n < 10 ? '0' + n : n }
+                return this.getFullYear() + '-'
+                    + pad(this.getMonth() + 1) + '-'
+                    + pad(this.getDate());
+            };
+        }
+
+        if (typeof Date.prototype.toISODatetime != 'function') {
+            Date.prototype.toISODatetime = function () {
+                function pad(n) { return n < 10 ? '0' + n : n }
+                return this.getFullYear() + '-'
+                + pad(this.getMonth() + 1) + '-'
+                + pad(this.getDate()) + 'T'
+                + pad(this.getHours()) + ':'
+                + pad(this.getMinutes()) + ':'
+                + pad(this.getSeconds()) + 'Z';
+            };
+        }
+
+        if (typeof Date.prototype.addMilliseconds != 'function') {
+            Date.prototype.addMilliseconds = function (milliseconds) {
+                this.setMilliseconds(this.getMilliseconds() + milliseconds);
+                return this;
+            }
+        }
+
+        if (typeof Date.prototype.addSeconds != 'function') {
+            Date.prototype.addSeconds = function (seconds) {
+                this.setSeconds(this.getSeconds() + seconds, this.getMilliseconds());
+                return this;
+            }
+        }
+
+        if (typeof Date.prototype.addMinutes != 'function') {
+            Date.prototype.addMinutes = function (minutes) {
+                this.setMinutes(this.getMinutes() + minutes, this.getSeconds(), this.getMilliseconds());
+                return this;
+            };
+        }
+
+        if (typeof Date.prototype.addHours != 'function') {
+            Date.prototype.addHours = function (hours) {
+                this.setHours(this.getHours() + hours);
+                return this;
+            };
+        }
+
+        if (typeof Date.prototype.addDays != 'function') {
+            Date.prototype.addDays = function (days) {
+                this.setDate(this.getDate() + days);
+                return this;
+            };
+        }
+
+        if (typeof Date.prototype.addWeeks != 'function') {
+            Date.prototype.addWeeks = function (w) {
+                this.addDays(w * 7);
+                return this;
+            };
+        }
+
+        if (typeof Date.prototype.addMonths != 'function') {
+            Date.prototype.addMonths = function (m) {
+                this.setMonth(this.getMonth() + m);
+                return this;
+            };
+        }
+
+        if (typeof Date.prototype.addYears != 'function') {
+            Date.prototype.addYears = function (y) {
+                // Adds the number of years to date.
+                var m = this.getMonth();
+                this.setFullYear(this.getFullYear() + y);
+                //Adjust for leap years
+                if (m < this.getMonth()) {
+                    this.setDate(0);
+                }
+                return this;
+            };
+        }
+
+        if (typeof Date.prototype.month != 'function') {
+            Date.prototype.month = function () {
+                var m = (this.getMonth() + 1);
+                return m;
+            };
+        }
+
+
+        if (typeof Date.prototype.toMonth != 'function') {
+            Date.prototype.toMonth = function () {
+                var month = this.getMonth() + 1;
+                var year = this.getFullYear();
+                return month + "/" + year;
+            }
+        }
+
+        if (typeof Date.prototype.toYear != 'function') {
+            Date.prototype.toYear = function () {
+                return this.getFullYear();
+            }
+        }
+
+
+        if (typeof Date.prototype.toShortDateString != 'function') {
+            Date.prototype.toShortDateString = function () {
+                var month = this.getMonth() + 1;
+                var day = this.getDate();
+                var year = this.getFullYear();
+                return month + "/" + day + "/" + year;
+
+            };
+        }
+
+        /***** ARRAY ****/
+
+
+        if ('function' !== typeof Array.prototype.sortByField) {
+            /* Function to sort an array consisting of Javascript objects by a field you specify */
+            Array.prototype.sortByField = function (fieldName, reverse) {
+           
+                var values = this;
+                var fieldA, fieldB;
+           
+                function lowerCaseSort(a, b) {
+             
+                    fieldA = a[fieldName];
+                    fieldB = b[fieldName];
+
+                    if (fieldA == "" && fieldB == "")
+                        return 0;
+                    else if (fieldA == undefined || fieldA == null || fieldA == "")
+                        return 1;
+                    else if (fieldB == undefined || fieldB == null || fieldB == "")
+                        return - 1;
+                 
+                    fieldA = fieldA.toLowerCase();
+                    fieldB = fieldB.toLowerCase();
+                 
+                    if (fieldA > fieldB)
+                        return 1 * multiplier;
+                    if (fieldA < fieldB)
+                        return -1 * multiplier;
+
+                    return 0;
+                }
+           
+                function compareToSort(a, b) {
+                    // //console.log('a o%',a);
+                    ////console.log('b o%',b);
+                    fieldA = a[fieldName];
+                    fieldB = b[fieldName];
+                    ////console.log('fieldA='+fieldA);
+                    ////console.log('fieldB='+fieldB);
+                    if (fieldA == null && fieldB == null)
+                        return 0;
+                    else if (fieldA == null)
+                        return 1;
+                    
+                    else if (fieldB == null)
+                        return - 1;
+
+                    return(fieldA.compareTo(fieldB) * multiplier);
+                }
+
+
+                function genericSort(a, b) {
+                    ////console.log('a o%',a);
+                    ////console.log('b o%',b);
+                    fieldA = a[fieldName];
+                    fieldB = b[fieldName];
+
+                    if(fieldA == null && fieldB == null)
+                        return 0;
+                    else if (fieldA == null)
+                        return 1;
+                    else if (fieldB == null)
+                        return - 1;
+
+                    if (fieldA > fieldB)
+                        return 1 * multiplier;
+                    if (fieldA < fieldB)
+                        return -1 * multiplier;
+
+                    return 0;
+              
+                }
+           
+                try {
+                    if(!fieldName || values.length === 0)
+                        return values;
+                 
+                    var multiplier = (reverse ? -1 : 1);
+                    
+                    /* determine datatype of the fields - based on first value
+                        this function can handle string, number and date sorting */
+                    var first = values[0][fieldName];
+                    //console.log(first);
+                    var sortFunction = genericSort; 
+                    if (typeof first == "string") {
+                        ////console.log('lowerCaseSort');
+                        sortFunction = lowerCaseSort;
+                    }
+                    //console.log(sortFunction);
+                    values.sort(sortFunction);
+                }
+                catch (e) {
+                    //console.log(e);
+                }
+                return values;
+            }
+        }
+</script>
+
+<script language="javascript">
+
+    var dateFormat = function () {
+        var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+            timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+            timezoneClip = /[^-+\dA-Z]/g,
+            pad = function (val, len) {
+                val = String(val);
+                len = len || 2;
+                while (val.length < len) val = "0" + val;
+                return val;
+            };
+
+        // Regexes and supporting functions are cached through closure
+        return function (date, mask, utc) {
+            var dF = dateFormat;
+
+            // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+            if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+                mask = date;
+                date = undefined;
+            }
+
+            // Passing date through Date applies Date.parse, if necessary
+            date = date ? new Date(date) : new Date;
+            if (isNaN(date)) throw SyntaxError("invalid date");
+
+            mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+            // Allow setting the utc argument via the mask
+            if (mask.slice(0, 4) == "UTC:") {
+                mask = mask.slice(4);
+                utc = true;
+            }
+
+            var _ = utc ? "getUTC" : "get",
+                d = date[_ + "Date"](),
+                D = date[_ + "Day"](),
+                m = date[_ + "Month"](),
+                y = date[_ + "FullYear"](),
+                H = date[_ + "Hours"](),
+                M = date[_ + "Minutes"](),
+                s = date[_ + "Seconds"](),
+                L = date[_ + "Milliseconds"](),
+                o = utc ? 0 : date.getTimezoneOffset(),
+                flags = {
+                    d:    d,
+                    dd:   pad(d),
+                    ddd:  dF.i18n.dayNames[D],
+                    dddd: dF.i18n.dayNames[D + 7],
+                    m:    m + 1,
+                    mm:   pad(m + 1),
+                    mmm:  dF.i18n.monthNames[m],
+                    mmmm: dF.i18n.monthNames[m + 12],
+                    yy:   String(y).slice(2),
+                    yyyy: y,
+                    h:    H % 12 || 12,
+                    hh:   pad(H % 12 || 12),
+                    H:    H,
+                    HH:   pad(H),
+                    M:    M,
+                    MM:   pad(M),
+                    s:    s,
+                    ss:   pad(s),
+                    l:    pad(L, 3),
+                    L:    pad(L > 99 ? Math.round(L / 10) : L),
+                    t:    H < 12 ? "a"  : "p",
+                    tt:   H < 12 ? "am" : "pm",
+                    T:    H < 12 ? "A"  : "P",
+                    TT:   H < 12 ? "AM" : "PM",
+                    Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                    o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                    S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+                };
+
+            return mask.replace(token, function ($0) {
+                return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+            });
+        };
+    }();
+
+    // Some common format strings
+    dateFormat.masks = {
+        "default":      "ddd mmm dd yyyy HH:MM:ss",
+        shortDate:      "m/d/yy",
+        mediumDate:     "mmm d, yyyy",
+        longDate:       "mmmm d, yyyy",
+        fullDate:       "dddd, mmmm d, yyyy",
+        shortTime:      "h:MM TT",
+        mediumTime:     "h:MM:ss TT",
+        longTime:       "h:MM:ss TT Z",
+        isoDate:        "yyyy-mm-dd",
+        isoTime:        "hh:MM:ss",
+        isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+        isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+    };
+
+    // Internationalization strings
+    dateFormat.i18n = {
+        dayNames: [
+            "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ],
+        monthNames: [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+            "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+        ]
+    };
+
+    if (typeof Date.prototype.format  != 'function') {
+        Date.prototype.format  = function (mask, utc) {
+            return dateFormat(this, mask, utc);
+        };
+    }
+
+</script>
+<style type="text/css">
+        .{!controlId_p}title {
+            padding: 5px 5px 5px 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .{!controlId_p}search-inputs {
+            margin-left: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            background: #f8f8f8;
+            padding: 5px 3px 20px 3px;
+            border: 1px solid #DDDDDD;
+            width: 80%;
+        }
+
+        .{!controlId_p}filter-bar {
+            background: #f8f8f8;
+            padding: 5px 3px 20px 3px;
+        }
+
+        #refresh_{!controlId_p} {
+            background: url(/img/alohaSkin/sync.png) top left no-repeat;
+            width: 22px;
+            height: 20px;
+            background-position: 2px 2px;
+            vertical-align: bottom;
+            cursor: pointer;
+        }
+
+        .{!controlId_p}filter-letters {
+            float: right;
+        }
+
+        .{!controlId_p}filter-letter-box, .{!controlId_p}filter-letter-box-selected {
+            color: #015ba7;
+            font-weight: normal;
+            font-size: 11px;
+            padding: 0 5px;
+            border-right: 1px solid #cfcece;
+            cursor : pointer;
+        }
+
+        .{!controlId_p}filter-letter-box-selected {
+            color: #000;
+            background-color: #c6e1ff;
+
+        }
+
+        #searchTable_{!controlId_p}_Panel {
+            background-color: #FFF;
+        }
+
+        #searchTableContainer_{!controlId_p} {
+            margin-left: 10px;
+            border-right: 1px solid #DDDDDD;
+            border-left: 1px solid #DDDDDD;
+            border-top: 1px solid #DDDDDD;
+            /*width: 80%;*/
+        }
+
+        #searchTable_{!controlId_p}_header,
+        #searchTable_{!controlId_p}_footer,
+        #searchTable_{!controlId_p} {
+            width: 100%;
+
+        }
+
+        #searchTable_{!controlId_p} {
+            border-bottom: 1px solid #DDDDDD;
+        }
+
+        #searchTable_{!controlId_p} tbody tr:hover
+        {
+            background-color: #e3f3ff;
+        }
+
+        
+        #searchTable_{!controlId_p}_header .thead-row,
+        #searchTable_{!controlId_p} .thead-row {
+            background-color: #F2F3F3;
+        }
+
+        #searchTable_{!controlId_p}_header .thead-row .thead-cell,
+        #searchTable_{!controlId_p} .thead-row .thead-cell {
+            background-color:#F2F3F3;
+            border-bottom: 1px solid #DDDDDD;
+            border-top: 1px solid #DDDDDD;
+            border-right:1px solid #e0e3e5;
+            border-left:1px solid #eee;
+
+            vertical-align: middle;
+            
+            font: normal 11px Arial,Helvetica,sans-serif;
+            font-weight: bold;
+            /*padding: 2px 6px 3px;*/
+            padding: 2px 4px 3px 3px;
+            white-space: nowrap;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #searchTable_{!controlId_p}_header .thead-filter-row,
+        #searchTable_{!controlId_p} .thead-filter-row {
+            background-color: #666666;
+        }
+    
+        #searchTable_{!controlId_p}_header .thead-filter-row .thead-filter-cell,
+        #searchTable_{!controlId_p}  .thead-filter-row .thead-filter-cell {
+            padding: 2px 6px 3px;
+        }
+
+        #searchTable_{!controlId_p}_header .thead-row .sort-desc,
+        #searchTable_{!controlId_p}_header .thead-row  .sort-asc ,
+        #searchTable_{!controlId_p} .thead-row .sort-desc, 
+        #searchTable_{!controlId_p} .thead-row  .sort-asc {
+            background-color: #d6dae0;
+        }
+
+        .sort-desc {
+            background-image: url('/img/alohaSkin/sortArrows_sprite.png');
+            background-repeat: no-repeat;
+            background-position: 98% 5px;
+        }
+
+        .sort-asc {
+            background-image: url('/img/alohaSkin/sortArrows_sprite.png');
+            background-repeat: no-repeat;
+            background-position: 98% -12px;
+         }
+
+
+        #searchTable_{!controlId_p} .filter-txt {
+
+            font-size: .9em;
+        }
+
+        #searchTable_{!controlId_p} .thead-row,
+        #searchTable_{!controlId_p} .tbody-row {
+            height: 22px;
+        }
+
+        #searchTable_{!controlId_p} .tbody-row {
+            /*background-color: #FFF;*/
+        }
+
+        #searchTable_{!controlId_p}_header .thead-new-row, 
+        #searchTable_{!controlId_p} .thead-new-row {
+            background-color: #e3f3ff;
+        }
+
+        #searchTable_{!controlId_p} .tbody-row .tbody-cell,
+        #searchTable_{!controlId_p}_header .thead-new-row .thead-new-cell,
+        #searchTable_{!controlId_p} .thead-new-row .thead-new-cell {
+            padding: 3px 3px 3px 5px;
+            font: normal 11px Arial,Helvetica,sans-serif;
+            white-space: nowrap;
+            border-bottom: 1px solid #DDDDDD;
+            font-size:12px;
+            box-sizing: border-box;
+            /*border-right: 1px solid #DDDDDD;*/
+        }
+
+
+        
+        #searchTable_{!controlId_p}_footer .tfoot-row,
+        #searchTable_{!controlId_p} .tfoot-row {
+            background-color: #F2F3F3;
+        }
+
+        #searchTable_{!controlId_p}_footer .tfoot-row .tfoot-cell,
+        #searchTable_{!controlId_p} .tfoot-row .tfoot-cell {
+            padding: 3px 3px 3px 5px;
+            font: normal 11px Arial,Helvetica,sans-serif;
+            white-space: nowrap;
+            font-size:12px;
+            vertical-align: middle;
+        }
+
+        
+        .inlineDisplay {
+            display : inline;
+        }
+
+        .footerControls {
+            width: 33%;
+        }
+
+        
+        .footerControlsLeft {
+            float: left;
+            text-align: left;
+        }
+
+        .footerControlsCenter {
+            width: 33%;
+            text-align: center;
+            display: inline-block;
+            margin: 5px 0 0 0;
+
+        }
+
+        .footerControlsRight {
+            float: right;
+            text-align: right;
+        }
+        
+
+        .number-input {
+            width: 2em;
+            text-align: center;
+        }
+
+        #chkMassSelect_{!controlId_p} {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            padding: 0;
+        }
+
+        .input-btn {
+            color: #333;
+            margin: 1px;
+            padding: 2px 3px;
+            border: 1px solid #b5b5b5;
+            border-bottom-color: #7f7f7f;
+            /*background: #e8e8e9 url('/img/alohaSkin/input-btn_sprite.png') repeat-x right top;*/
+            font-weight: bold;
+            font-size: .9em;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+
+
+
+        input[type="checkbox"] {
+            -webkit-appearance: checkbox;
+            box-sizing: border-box;
+        }
+
+
+        .{!controlId_p}paginator {
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .{!controlId_p}paginator .{!controlId_p}paginatorLinks {
+            color: #a8a8a8;
+            cursor: pointer;
+        }
+
+        .{!controlId_p}paginator-yes {
+            color: #000000;
+        }
+
+        .{!controlId_p}paginator .firstoff-no, .{!controlId_p}paginator .prevoff-no, .{!controlId_p}paginator .nextoff-no, .{!controlId_p}paginator .lastoff-no,
+        .{!controlId_p}paginator .firstoff-yes, .{!controlId_p}paginator .prevoff-yes, .{!controlId_p}paginator .nextoff-yes, .{!controlId_p}paginator .lastoff-yes {
+            background-image: url(/img/paginationArrows.gif);
+            background-repeat: no-repeat;
+            background-position: 0 -10px;
+            width: 9px;
+            height: 10px;
+        }
+
+        .{!controlId_p}paginator .firstoff-no {
+            background-position: 0 -10px;
+        }
+
+
+        .{!controlId_p}paginator .prevoff-no {
+            background-position: -10px -10px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .{!controlId_p}paginator .nextoff-no {
+            background-position: -17px -10px;
+        }
+
+        .{!controlId_p}paginator .lastoff-no {
+            background-position: -27px -10px;
+        }
+
+
+        .{!controlId_p}paginator .firstoff-yes {
+            background-position: 0 1px;
+            cursor: pointer;
+        }
+
+
+        .{!controlId_p}paginator .prevoff-yes {
+            background-position: -10px 1px;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .{!controlId_p}paginator .nextoff-yes {
+            background-position: -17px 1px;
+            cursor: pointer;
+        }
+
+        .{!controlId_p}paginator .lastoff-yes {
+            background-position: -27px 1px;
+            cursor: pointer;
+        }
+</style>
+
+<apex:form >
+    <div id="{!controlId_p}Container" > 
+        <div class="{!controlId_p}title" >{!controlTitle}</div>
+        <div class="{!controlId_p}search-inputs" style="display:none">
+            <table  border="0" cellspacing="0" cellpadding="0" >
+                <tr>
+                    <td colspan="2">
+                        <input type="button" class="input-btn" onclick="javascript:currentComponent_{!controlId_p}.remoteSearch();" value="Search" />
+                        <input type="hidden" id="searchSortBy_{!controlId_p}"  value="" />
+                        <input type="hidden" id="searchSortDirection_{!controlId_p}" value="DESC" />
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+        <div id="errorPanel_{!controlId_p}" class="message errorM3" style="display:none;" >
+            <table border="0" cellpadding="0" cellspacing="0" class="messageTable" style="padding:0px;margin:0px;">
+                <tbody>
+                    <tr valign="top">
+                        <td>
+                            <img alt="ERROR" class="msgIcon" src="/s.gif" title="ERROR" />
+                        </td>
+                        <td class="messageCell">
+                            <div class="messageText">
+                                <span  style="color:#cc0000"><h4>Error:</h4></span><span id="errorMsgContainer_{!controlId_p}"></span><br/>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="searchTableContainer_{!controlId_p}">
+            <div class="{!controlId_p}filter-bar">
+                <div id="listFilterPanel_{!controlId_p}" class="filter-controls inlineDisplay">
+                    <input type="button" id="btnFilter_{!controlId_p}" class="input-btn" value="Filter" onclick="javascript:currentComponent_{!controlId_p}.displayFilter();"  title="Filter"/>
+                </div>
+                <div id="otherPanel_{!controlId_p}" class="inlineDisplay">
+                    <input type="button" id="refresh_{!controlId_p}" src="s.gif" href="javascript:void(0)" onclick="javascript:currentComponent_{!controlId_p}.remoteSearch();" class="input-btn" title="Refresh" />
+                </div>
+                <div id="customPanel_{!controlId_p}" class="inlineDisplay">
+                </div>
+                <div id="letterFilterPanel_{!controlId_p}" class="{!controlId_p}filter-letters inlineDisplay">
+                    
+                    <script id="filterLetter_Handlebars_{!controlId_p}" type="text/x-handlebars-template">
+                        {{#each objects}}
+                            <span class="{!controlId_p}filter-letter-box" onclick="javascript:currentComponent_{!controlId_p}.doFilter('{{this}}', this);">{{this}}</span>
+                        {{/each}}
+                    </script>
+
+                </div>
+                <apex:outputPanel rendered="{!showActionColumn}" layout="none">
+                    <div class="{!controlId_p}-button-panel">
+                        <input class="btn newButton" id="btnNew_{!controlId_p}" immediate="true" onclick="javascript:currentComponent_{!controlId_p}.newRecord();" type="button" value="New"  title="New"/>
+                        <input class="btn saveButton {!controlId_p}-btnDisabled" id="btnSave_{!controlId_p}" immediate="true" onclick="javascript:currentComponent_{!controlId_p}.saveRecord();" style="display: none;" type="button" value="Save" disabled="" title="Save" />
+                        <input class="btn cancelButton " id="btnCancel_{!controlId_p}" immediate="true" onclick="javascript:currentComponent_{!controlId_p}.cancel();" style="display: none;" type="button" value="Cancel"   title="Cancel" />
+                    </div>
+                </apex:outputPanel>
+            </div>
+            <table id="searchTable_{!controlId_p}_header" border="0" cellspacing="0" cellpadding="0" >
+                <thead></thead>
+            </table>
+            <div id="searchTable_{!controlId_p}_Panel" style="">
+                <table id="searchTable_{!controlId_p}" border="0" cellspacing="0" cellpadding="0" >
+                    <thead>
+                        <tr class="thead-row">
+                            <th class="thead-cell {!controlId_p}col-check col-selectors" style="{!IF(isScrollable, '', 'width :34px')}"><input id="chkMassSelect_{!controlId_p}" title="Check / Uncheck" type="checkbox" onclick="javascript:currentComponent_{!controlId_p}.selectChildCheckbox(this);" /></th>
+                            <apex:outputPanel rendered="{!showActionColumn}" layout="none">
+                                <th class="thead-cell {!controlId_p}col-action col-action col-selectors" style="{!IF(isScrollable, '', 'width :55px')}">Action</th>
+                            </apex:outputPanel>
+                            <apex:repeat value="{!controlDescriptionList}" var="cd">
+                                <th class="thead-cell"  onclick="javascript:currentComponent_{!controlId_p}.sortTable(this, '{!cd.HTMLName}');" id="thead{!cd.HTMLName}_{!controlId_p}">{!cd.HeaderTitle}</th>
+                            </apex:repeat>
+                            
+                        </tr>
+                        <tr class="thead-filter-row" id="filterRow_{!controlId_p}">
+                            <th class="thead-filter-cell {!controlId_p}col-check" ></th>
+                            <th class="thead-filter-cell {!controlId_p}col-action" ></th>
+                            <apex:repeat value="{!controlDescriptionList}" var="cd">
+                                <th class="thead-filter-cell" id="theadFilter{!cd.HTMLName}_{!controlId_p}"><input id="txtFilter{!cd.HTMLName}_{!controlId_p}" class="filter-txt" type="text"  value="" onkeyup="currentComponent_{!controlId_p}.doFilterMore();" /></th>
+                            </apex:repeat>
+                        </tr>
+                        <tr class="thead-new-row" id="newRow_{!controlId_p}">
+                            <th class="thead-new-cell {!controlId_p}col-check" ></th>
+                            <th class="thead-new-cell {!controlId_p}col-action" ></th>
+                            <apex:repeat value="{!controlDescriptionList}" var="cd">
+                                <th class="thead-new-cell" id="theadNew{!cd.HTMLName}_{!controlId_p}">
+                                    <apex:outputPanel rendered="{!cd.IsText}" layout="none">
+                                        <input id="txtNew{!cd.HTMLName}_{!controlId_p}" class="{!controlId_p}-new-txt  {!controlId_p}-txt-edit" type="text"  value="" />
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!cd.IsBoolean}" layout="none">
+                                        <input id="txtNew{!cd.HTMLName}_{!controlId_p}" class="{!controlId_p}-new-edit " type="checkbox" value="{{{!cd.HTMLName}}}" />
+                                    </apex:outputPanel>
+                                </th>
+                            </apex:repeat>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <script id="searchTable_Handlebars_{!controlId_p}" type="text/x-handlebars-template">
+                        {{#each objects}}
+                            <tr id="dataRow_{!controlId_p}_{{Id}}" alternativeKey="{{_KEY}}"  class="tbody-row" >
+                                <td class="tbody-cell {!controlId_p}col-check  col-selectors"  style="{!IF(isScrollable, 'width :35px', '')}" >&nbsp;<input id="{{Id}}" value="{{Id}}" title="" type="{!IF(useRadio, 'radio', 'checkbox')}" class="checkbox {!controlId_p}chk-ids" name="chkIds" onclick="currentComponent_{!controlId_p}.onCheckBox_Click(this);" onchange="currentComponent_{!controlId_p}.onCheckBox_Change(this);" /></td>
+                                <apex:outputPanel rendered="{!showActionColumn}" layout="none">
+                                <td class="tbody-cell {!controlId_p}col-action  col-selectors" style="{!IF(isScrollable, 'width :61px', '')}"  >
+                                    
+                                    <div class="{!controlId_p}-display {!controlId_p}-element-show">
+                                    <a class="actionLink" href="javascript:currentComponent_{!controlId_p}.editRecord('{{Id}}');">Edit</a>&nbsp;|&nbsp;
+                                    <a class="actionLink" href="javascript:currentComponent_{!controlId_p}.deleteRecord('{{Id}}');">Del</a>
+                                    </div>
+                                    <input id="hd{!controlId_p}Modified_{{Id}}" class="{!controlId_p}-input-edit {!controlId_p}-modified" type="hidden" value="0">
+                                    <input id="hd{!controlId_p}_{{Id}}" class="{!controlId_p}-input-edit {!controlId_p}-Id" type="hidden" value="{{Id}}">
+                                    <input id="hd{!controlId_p}RowIndex_{{Id}}" class="{!controlId_p}-input-edit {!controlId_p}-row-index" type="hidden" value="0">
+                                </td>
+                                </apex:outputPanel>
+
+                                <apex:repeat value="{!controlDescriptionList}" var="cd">
+                                <td class="tbody-cell cell-{!cd.HTMLName}-{!controlId_p}" >
+                                    <apex:outputPanel rendered="{!cd.IsText}" layout="none">
+                                        <span id="span{!cd.HTMLName}_{!controlId_p}_{{Id}}" class="{!controlId_p}-display {!controlId_p}-element-show">{{formatText {!cd.HTMLName} '{!cd.InputType}'}}</span>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!cd.IsBoolean}" layout="none">
+                                        <img id="span{!cd.HTMLName}_{!controlId_p}_{{Id}}" src="/img/{{#if {!cd.HTMLName}}}checkbox_checked.gif{{else}}checkbox_unchecked.gif{{/if}}" class="{!controlId_p}-display {!controlId_p}-element-show" />
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!AND(showActionColumn, cd.IsText)}" layout="none">
+                                        <input id="txt{!cd.HTMLName}_{!controlId_p}_{{Id}}" class="{!controlId_p}-input-edit {!controlId_p}-txt-edit {!controlId_p}-element-hide {{#isEquals '{!cd.InputType}' 'DATE'}}{!controlId_p}-datepicker{{/isEquals}}" type="text" value="{{{!cd.HTMLName}}}"  onblur="currentComponent_{!controlId_p}.setEditMode(this, '{{Id}}', '{!cd.HTMLName}')" onkeyup="currentComponent_{!controlId_p}.setEditMode(this, '{{Id}}', '{!cd.HTMLName}')" 
+                                                    {{#isEquals '{!cd.InputType}' 'DATE'}} name="txt{!cd.HTMLName}_{!controlId_p}_{{Id}}" onfocus="DatePicker.pickDate(true, 'txt{!cd.HTMLName}_{!controlId_p}_{{Id}}', false);" size="12"{{/isEquals}}
+                                                    {{#isEquals '{!cd.InputType}' 'DATETIME'}} name="txt{!cd.HTMLName}_{!controlId_p}_{{Id}}" onfocus="DatePicker.pickDate(false, 'txt{!cd.HTMLName}_{!controlId_p}_{{Id}}', true);" size="12"{{/isEquals}}
+                                         />
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!AND(showActionColumn, cd.IsBoolean)}" layout="none">
+                                        <input id="txt{!cd.HTMLName}_{!controlId_p}_{{Id}}" class="{!controlId_p}-input-edit {!controlId_p}-element-hide" type="checkbox" value="{{{!cd.HTMLName}}}" {{#if {!cd.HTMLName}}} checked="isChecked" {{/if}} onclick="javascript:currentComponent_{!controlId_p}.setEditMode(this, '{{Id}}', '{!cd.HTMLName}')" onkeypress="currentComponent_{!controlId_p}.setEditMode(this, '{{Id}}', '{!cd.HTMLName}')">
+                                    </apex:outputPanel>
+                                </td>
+                                </apex:repeat>
+                            </tr>
+                        {{else}}
+                            <tr class="tbody-row" >
+                                <td class="tbody-cell" colspan="{!columnCount}">No Results Found</td>
+                            </tr>   
+                        {{/each}}
+                        </script>   
+
+                    </tbody>
+                    <tfoot>
+                        <tr class="tfoot-row">
+                            <td class="tfoot-cell" colspan="{!columnCount}">
+                                <div class="inlineDisplay footerControlsLeft footerControls"  >Display <select class="title" id="ddlRecordsPerPage_{!controlId_p}" name="fcf" onchange="currentComponent_{!controlId_p}.setRecordsPerPage(this.options[this.selectedIndex].value);" title="View:">
+                                    <option value="10"  selected="selected">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                </select> records per page
+                                </div>
+                                <div class="{!controlId_p}paginator inlineDisplay footerControlsCenter footerControls"  >
+                                    <span class="{!controlId_p}paginatorLinks">
+                                        <span id="spanFirstOff_{!controlId_p}"><img src="/s.gif" id="imgFirstOff_{!controlId_p}" class="firstoff-no" alt="First Page"/></span>
+                                        <span id="spanPrevOff_{!controlId_p}"><img src="/s.gif"  id="imgPrevOff_{!controlId_p}" class="prevoff-no" alt="Previous"/>Previous</span>
+                                        <span id="spanNextOff_{!controlId_p}">Next<img src="/s.gif" id="imgNextOff_{!controlId_p}" class="nextoff-no" alt="Next"/></span>
+                                        <span id="spanLastOff_{!controlId_p}"><img src="/s.gif" id="imgLastOff_{!controlId_p}" class="lastoff-no" alt="Last Page"/></span>
+                                    </span>
+                                </div>
+                                <div id="paginationControl_{!controlId_p}" class="inlineDisplay footerControlsRight footerControls " >Page <input id="txtCurrentPage_{!controlId_p}" class="number-input" maxlength="4" onkeypress="return currentComponent_{!controlId_p}.onlyNumbers(event);" value="1" onchange="currentComponent_{!controlId_p}.goToPage(this.value);"  /> of <span id="spanTotalPages_{!controlId_p}" >0</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <table id="searchTable_{!controlId_p}_footer" border="0" cellspacing="0" cellpadding="0" >
+                <tfoot></tfoot>
+            </table>
+        </div>
+
+    
+
+    <script language="javascript">
+    /**
+     * Component Javascript
+     * @description: 
+     * @author By: Ricardo Visbal, 24-Mar-2014
+    **/
+    function {!controlId_p}_ComponentUtils() {
+        this.columnList = "{!columnList}";
+        this.sObjectName = "{!sObjectName_p}";
+        this.queryFilter = "{!queryFilter}";
+        this.queryTxtFilter = '';
+        this.queryLetterFilter = '';
+        this.querySort = '';
+        this.queryLimit = '';
+        this.controlId_p = "{!controlId_p}";
+        this.hiddenColumnList = "{!hiddenColumnList}";
+
+
+        this.showLetterFilter = {!showLetterFilter};
+        this.showListFilter = {!showListFilter};
+        this.showActionColumn = {!showActionColumn_p};
+        this.showCheckColumn = {!showCheckColumn_p};
+        this.useRadio = {!useRadio};
+        this.useFixedWidth = {!useFixedWidth};
+        this.isScrollable = {!isScrollable};
+
+        this.queryOnPageLoad = {!queryOnPageLoad};
+        this.queryIsBatch = {!queryIsBatch};
+        this.queryBatchCount = {!queryBatchCount};//Too many query rows: 50001 (aprx 7.77MB) 1:00
+        this.queryBatchIndex = 1;
+        this.queryMaxRecords = {!queryMaxRecords};//Max Records JS can Hold
+
+
+        this.isClientSide = false;
+        this.isServerSide = {!isServerSide};
+
+
+        this.controlDescriptionListJSON = {!controlDescriptionListJSON};
+
+
+        this.filterLetterTemplate = null;
+        this.searchTableTemplate = null;
+
+        this.searchObjectResult = new Array();
+        this.filterObjectResult = null;
+
+        this.selectedIds = new Array();
+
+        this.paginationCurrentPage = 1;
+        this.paginationPageSize = 10;
+        this.totalServerRecords = 0;
+
+        this.SEARCH_OBJECT = '{!$RemoteAction.GenericClientSideListCtrl.selectObject}';
+        this.SEARCH_ANY_OBJECT = '{!$RemoteAction.GenericClientSideListCtrl.queryAnyObject}';
+        this.CUSTOM_ACTION = '{!$RemoteAction.GenericClientSideListCtrl.customAction}';
+
+        this.SAVE_OBJECT = '{!$RemoteAction.GenericClientSideListCtrl.saveObject}';
+        this.SAVE_OBJECT_With_Results = '{!$RemoteAction.GenericClientSideListCtrl.saveObjectWithResult}';
+        this.DELETE_OBJECT = '{!$RemoteAction.GenericClientSideListCtrl.deleteObject}';
+
+        this.QUERY_NUMERIC = '{!$RemoteAction.GenericClientSideListCtrl.getNumericValue}';
+        this.QUERY_STRING = '{!$RemoteAction.GenericClientSideListCtrl.getStringValue}';
+        this.DESCRIBE_OBJECT = '{!$RemoteAction.GenericClientSideListCtrl.getObjectDescribe}';
+
+        this.alphabet = new Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z", "All");
+
+        this.const_new_id = "NEW";
+
+        this.recordsPerPageCountList = ['10', '25', '50', '100', '200'];
+
+        this.initRecordsPerPage = function () {
+            var selectElement = $j( "#ddlRecordsPerPage_{!controlId_p}" );
+            $j(selectElement).find("option").remove();
+            for (var i=0; i < this.recordsPerPageCountList.length; i++) {
+                this.addRecordsPerPageOption(selectElement, this.recordsPerPageCountList[i]);
+            }
+
+        }
+
+        this.addRecordsPerPageOption = function (selectElement, x) {
+            if ((this.getDataSource() != null && this.getDataSource().length >= x) || x == 10) this.addRecordsPerPageOptionItem(selectElement, x);
+        }
+
+        this.addRecordsPerPageOptionItem = function (selectElement, x) {
+            selectElement.append($j('<option>').attr('value',x).text(x));
+        }
+
+
+        this.initForceRecordsPerPage = function () {
+            var selectElement = $j( "#ddlRecordsPerPage_{!controlId_p}" );
+            $j(selectElement).find("option").remove();
+             for (var i=0; i < this.recordsPerPageCountList.length; i++) {
+                this.addRecordsPerPageOptionItem(selectElement, this.recordsPerPageCountList[i]);
+            }
+        }
+
+        this.selectChildCheckbox = function (that) {
+             //$j(".{!controlId_p}chk-ids").prop('checked', that.checked);
+             $j(".{!controlId_p}chk-ids").each(function(index, item) {
+                if ($j(item).is(':checked') != that.checked) {
+                    $j(item).click();
+                    currentComponent_{!controlId_p}.onCheckBox_Click($j(item));
+                }
+                //if ($j.inArray(item.value, currentComponent_{!controlId_p}.selectedIds) == -1)
+                //    currentComponent_{!controlId_p}.selectedIds.push(item.value);
+            });
+        }
+
+
+        this.selectAllRecords = function (that) {
+             for (var i=0; i < this.searchObjectResult.length; i++) {
+                var o = this.searchObjectResult[i];
+                if (this.selectedIds.indexOf(o.Id) == -1) {
+                    this.selectedIds.push(o.Id);
+                }
+            }
+        }
+
+
+        this.refreshFromServer = function () {
+            if (typeof this.before_RefreshFromServer == 'function') { this.before_RefreshFromServer(); }
+            this.remoteSearch();
+            if (typeof this.after_RefreshFromServer == 'function') { this.after_RefreshFromServer(); }
+        }
+
+        this.getOffSet = function (recordsPerPage, currentPage) {
+            //Limits
+            if (arguments.length < 1) recordsPerPage = this.getRecordsPerPage();
+            if (arguments.length < 2) currentPage = this.getCurrentPage();
+            return (currentPage * recordsPerPage) - recordsPerPage;
+        }
+
+        this.appendFilter = function (qFilter, currentFilter) {
+            if (!this.isNullOrEmpty(currentFilter)) {
+                if (!this.isNullOrEmpty(qFilter)) {
+                    qFilter += ' AND ';
+                }
+                qFilter += currentFilter;
+            }
+            return qFilter;
+        }
+
+
+        this.remoteSearch = function () {
+            currentComponent_{!controlId_p}.showError(false);
+            
+             if(!this.isUndefined(this.queryIsBatch)) {
+                if (!this.queryIsBatch) 
+                    this.displaySpin(true);
+            }
+
+            
+            
+            var isValid = true;
+            var q = this.columnList;
+            if (!this.isNullOrEmpty(this.hiddenColumnList)) {
+                q += ',' + this.hiddenColumnList;
+            }
+
+            var qFilter = this.queryFilter;
+            if (this.isServerSide) {
+                //txt Filter
+                qFilter = this.appendFilter(qFilter, this.queryTxtFilter);
+                //letter Filter
+                qFilter = this.appendFilter(qFilter, this.queryLetterFilter);
+                //Sort
+                var sSortBy = this.getSortBy();
+                var sSortDirection = this.getSortDirection();
+                $j("#thead"+ sSortBy + "_{!controlId_p}").addClass((sSortDirection=='ASC')?"sort-asc":"sort-desc");
+                this.querySort = '  ORDER BY ' + sSortBy + ' '+ sSortDirection;
+
+                //Limits
+                //this.queryLimit = '  LIMIT ' + this.queryBatchCount + ' OFFSET '+ this.getOffSet(this.queryBatchCount);
+                this.queryLimit = '  LIMIT ' + this.getRecordsPerPage() + ' OFFSET '+ this.getOffSet();
+
+                
+            }
+            else if (this.queryIsBatch) {
+                if (this.queryBatchIndex == 1) this.displaySpin(true);
+                //Limits
+                var recordsPerPage = this.getRecordsPerPage();
+                this.queryLimit = '  LIMIT ' + this.queryBatchCount + ' OFFSET '+ this.getOffSet(this.queryBatchCount, this.queryBatchIndex);
+                //////console.log(this.queryLimit );
+            }
+            if (isValid) {
+                Visualforce.remoting.Manager.invokeAction(
+                    this.SEARCH_OBJECT, 
+                    this.sObjectName,
+                    q,
+                    qFilter,
+                    this.querySort,
+                    this.queryLimit,
+                    function(result, event){
+                        if (event.status) {
+                            if (currentComponent_{!controlId_p}.queryIsBatch) {
+                                if (currentComponent_{!controlId_p}.searchObjectResult == null) currentComponent_{!controlId_p}.searchObjectResult = new Array();
+                                currentComponent_{!controlId_p}.searchObjectResult = currentComponent_{!controlId_p}.searchObjectResult.concat(result);
+                                var totalRecords = currentComponent_{!controlId_p}.searchObjectResult.length;
+                               
+                                if (totalRecords >= currentComponent_{!controlId_p}.totalServerRecords || totalRecords >= currentComponent_{!controlId_p}.queryMaxRecords) {
+                                    currentComponent_{!controlId_p}.queryBatchIndex = 1;
+                                    currentComponent_{!controlId_p}.displaySpin(false);
+                                    currentComponent_{!controlId_p}.buildHtml();
+                                }
+                                else {
+                                    currentComponent_{!controlId_p}.queryBatchIndex ++; 
+                                    currentComponent_{!controlId_p}.remoteSearch();
+                                }
+                            }
+                            else {
+                                currentComponent_{!controlId_p}.searchObjectResult = result;
+                                currentComponent_{!controlId_p}.buildHtml();
+                                
+                            }
+                            
+                            
+                          
+                        } 
+                        else if (event.type  == 'exception') {
+                            currentComponent_{!controlId_p}.showError(true, event.message);
+                        } 
+                        else if (result == null) {
+
+                        }
+                        if (!this.queryIsBatch) currentComponent_{!controlId_p}.displaySpin(false);
+                    },
+                    {escape: false}
+                );
+            }
+        }
+
+
+        this.buildHtml = function () {
+            this.initRecordsPerPage(); 
+            this.cleanNullProperties();              
+            this.generateTable();
+            if (typeof this.after_LoadingData == 'function') { this.after_LoadingData(); }
+        }
+
+
+        this.doCustomAction = function () {
+
+            this.displaySpin(true);
+
+            var isValid = true;
+
+            if (isValid) {
+                Visualforce.remoting.Manager.invokeAction(
+                    this.CUSTOM_ACTION, 
+                    this.selectedIds,
+                    function(result, event){
+                        if (event.status) {
+                            
+                         
+                        } 
+                        else if (event.type  == 'exception') {
+                            currentComponent_{!controlId_p}.showError(true, event.message);
+                        } 
+                        else if (result == null) {
+                            
+                        }
+                        currentComponent_{!controlId_p}.displaySpin(false);
+                    },
+                    {escape: false}
+                );
+            }
+        }
+
+        this.getValue = function (v) {
+            if (this.isNullOrEmpty(v)) {
+                return null;
+            }
+            else return v
+
+        }
+
+        this.getBooleanValue = function (v) {
+            if (this.isNullOrEmpty(v)) {
+                return false;
+            }
+            else return v
+
+        }
+
+        
+        this.getProperties = function () {
+            var propertyList = new Array();
+            <apex:repeat value="{!resultColumnList}" var="item">
+            propertyList.push("{!item}");
+            </apex:repeat>
+            return propertyList;
+        }
+
+
+        this.cleanNullProperties = function () {
+            var propertyList = this.getProperties();
+
+            var datePropertyList = this.getPropertyByInputTypeList('DATE');
+            var datetimeProperties = this.getPropertyByInputTypeList('DATETIME');
+            var booleanProperties = this.getPropertyByInputTypeList('BOOLEAN');
+            var percentProperties = this.getPropertyByInputTypeList('PERCENT');
+            var currencyProperties = this.getPropertyByInputTypeList('CURRENCY');
+            var doubleProperties = this.getPropertyByInputTypeList('DOUBLE');
+            for (var i=0; i < this.searchObjectResult.length;i++) {
+                var currentObject = this.searchObjectResult[i];
+                currentObject['_KEY'] = i;
+                for (var propertyIndex in propertyList) {
+
+                    var propertyName = propertyList[propertyIndex];
+                    if (typeof propertyName != 'function') {
+
+
+                        var propList = propertyName.split("."); 
+                        if (propList.length == 1) {
+                            if (datePropertyList.indexOf(propertyName) >= 0 ) {
+                                if (!this.isNullOrEmpty(currentObject[propertyName]))
+                                    currentObject[propertyName] = currentObject[propertyName].toDate().toShortDateString();
+                            }
+                            else if (datetimeProperties.indexOf(propertyName)  >= 0 ) {
+                                if (!this.isNullOrEmpty(currentObject[propertyName])) {
+                                    var v = currentObject[propertyName];
+                                    if (parseInt(v) != NaN) {
+                                        currentObject[propertyName] = parseInt(v).toDate();
+                                    }
+                                    else {
+                                        currentObject[propertyName] = currentObject[propertyName].toISODatetime();
+                                    }
+                                }
+                            }
+                            else if (booleanProperties.indexOf(propertyName) >= 0 ) {
+                                currentObject[propertyName] = this.getBooleanValue(currentObject[propList[0]]);
+                            }
+                            else if (percentProperties.indexOf(propertyName) >= 0 
+                                || currencyProperties.indexOf(propertyName) >= 0 
+                                || doubleProperties.indexOf(propertyName) >= 0 ) {
+                                currentObject[propertyName] = this.getNumericValue(currentObject[propList[0]]);
+                            }
+                            else {
+                                currentObject[propertyName] = this.getValue(currentObject[propList[0]]);
+                            }
+                        }
+                        else {
+                            var rPropertyName = propertyName.split('.').join('_');//.replace(".","_");
+                            currentObject[rPropertyName] = null;
+                            if (propList.length == 2) {
+                                if (currentObject[propList[0]] != null) {
+                                    currentObject[rPropertyName] = this.getValue(currentObject[propList[0]][propList[1]]);
+                                }
+                            }
+                            else if (propList.length == 3) {
+                                currentObject[rPropertyName] = this.getValue(currentObject[propList[0]][propList[1]][propList[2]]);    
+                            }
+                            
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+        this.getPropertyByInputTypeList = function (t, descriptionList) {
+            var resultPropertyList = new Array;
+            if (this.isUndefined(descriptionList))
+                descriptionList = this.controlDescriptionListJSON;
+            var resultList = $j.grep(descriptionList, function (cd) { return (cd.InputType == t); });
+            for (var z=0; z < resultList.length;z++) {
+                resultPropertyList.push(resultList[z].QueryName)
+            }
+            return resultPropertyList;
+        }
+
+        this.getCurrentPage = function () {
+            var pageResult = 1;
+            if (!this.isNullOrEmpty($j( "#txtCurrentPage_{!controlId_p}" ).val()))
+                pageResult = parseInt($j( "#txtCurrentPage_{!controlId_p}" ).val());
+            return pageResult;
+        }
+
+
+        this.setRecordsPerPage = function (count) {
+            $j( "#ddlRecordsPerPage_{!controlId_p}" ).val(count);//parseInt();
+        }
+
+        this.getRecordsPerPage = function () {
+            return parseInt($j( "#ddlRecordsPerPage_{!controlId_p}" ).val());
+        }
+
+        this.getTotalPages = function () {
+            var totalRecords = this.getDataSource().length;
+            if (this.isServerSide){
+                totalRecords = this.totalServerRecords;
+            }
+            var resultSize = Math.floor(totalRecords / this.paginationPageSize);
+            var remainder = totalRecords % this.paginationPageSize;
+            if (remainder > 0 ) resultSize ++;
+            return resultSize;
+        }
+
+        this.getDataSource = function () {
+            if (this.filterObjectResult != null) 
+                return this.filterObjectResult;
+            else 
+                return this.searchObjectResult;
+        }
+
+        this.goFirstPage = function () {
+            $j( "#txtCurrentPage_{!controlId_p}" ).val(1);
+            this.goToPage(this.getCurrentPage());
+        }
+
+
+        this.goPrevPage = function () {
+            $j( "#txtCurrentPage_{!controlId_p}" ).val(this.getCurrentPage() - 1);
+            this.goToPage(this.getCurrentPage());
+        }
+
+        this.goNextPage = function () {
+            $j( "#txtCurrentPage_{!controlId_p}" ).val(this.getCurrentPage() + 1);
+            this.goToPage(this.getCurrentPage());
+        }
+
+        this.goLastPage = function () {
+            $j( "#txtCurrentPage_{!controlId_p}" ).val(this.getTotalPages());
+            this.goToPage(this.getCurrentPage());
+        }
+
+        this.goToPage = function (pageNumber) {
+            this.paginationCurrentPage = (arguments.length > 0)?pageNumber:1;
+            if (this.isServerSide) {
+                this.refreshFromServer();
+            }
+            else {
+                this.generateTable();
+            }
+        }
+
+
+        this.setRecordsPerPage = function (recordCount) {
+            this.paginationPageSize = recordCount;
+            this.goFirstPage();
+        }
+
+
+        this.getTotalRecordsFromServer = function (recordCount) {
+            var q = "SELECT Count() FROM " + this.sObjectName;
+            this.getValueQueryServer(this.QUERY_NUMERIC, q, 'currentComponent_{!controlId_p}.getTotalRecordsFromServer_after();');
+
+        }
+
+
+        this.getTotalRecordsFromServer_after = function (result) {
+            this.totalServerRecords =  this.queryValueResult;  
+             //////console.log('this.totalServerRecords='+this.totalServerRecords);   
+            $j("#spanTotalPages_{!controlId_p}" ).html(this.totalServerRecords);
+            this.remoteSearch();
+             
+        }
+
+
+        this.generateTable = function () {
+            if (this.searchObjectResult != null) {
+                if (!this.isClientSide) {
+                    this.searchTableTemplate = this.getTemplateValue(this.searchTableTemplate, "#searchTable_Handlebars_{!controlId_p}");
+                    var source = this.searchTableTemplate;
+                                    
+                    var template = Handlebars.compile(source); 
+                }
+
+                if (this.isServerSide) {
+                    var totalPages = this.getTotalPages();
+                    this.handlePaginationControl(totalPages);
+                    $j("#searchTable_{!controlId_p} tbody").html(template({objects : this.searchObjectResult}));
+                }
+                else {
+                    var sSortBy = this.getSortBy();
+                    var sSortDirection = this.getSortDirection();
+                    var bSortDirection = (sSortDirection=='ASC');
+                    
+                    var targetDataSource = this.getDataSource();
+                    //////console.log('0 this.getDataSource() o%',this.getDataSource());
+                    //////console.log('0 targetDataSource o%',targetDataSource.length);
+                    <apex:repeat value="{!resultColumnAlternateList}" var="item">
+                    targetDataSource = this.doFilterByTxt(targetDataSource, "{!item}", '#txtFilter{!item}_{!controlId_p}');
+                    </apex:repeat>
+                    if (this.isClientSide) {
+                        $j("#searchTable_{!controlId_p} .filter-txt").each(function(index, item) {
+                            var pn = $j(item).attr("alt");
+                            var txtId = $j(item).attr("id");
+                            targetDataSource = currentComponent_{!controlId_p}.doFilterByTxt(targetDataSource, pn, '#' + txtId);
+                            ////console.log('1 targetDataSource o%',targetDataSource);
+                        });
+                    }
+                    ////console.log('2 targetDataSource o%',targetDataSource);
+                    targetDataSource.sortByField(sSortBy, bSortDirection);
+
+                    $j("#thead"+ sSortBy + "_{!controlId_p}").addClass(bSortDirection?"sort-asc":"sort-desc");
+
+                    /* pagination */
+                    var totalPages = this.getTotalPages();
+                    
+                    $j( "#spanTotalPages_{!controlId_p}" ).html(totalPages);
+
+                    if (this.paginationCurrentPage > this.getTotalPages()) this.paginationCurrentPage = this.getTotalPages();
+                    else if (this.paginationCurrentPage < 1) this.paginationCurrentPage = 1;
+
+                    var lastRecord = this.paginationPageSize * this.paginationCurrentPage;
+                    var firstIndex = lastRecord - this.paginationPageSize;
+                    var lastIndex = lastRecord - 1;
+                    //////console.log('lastRecord='+lastRecord);
+                    //////console.log('targetDataSource.length='+targetDataSource.length);
+                    if (targetDataSource.length < lastRecord) {
+                        lastIndex = targetDataSource.length -1;
+                        lastRecord = targetDataSource.length;
+                    }
+                    
+                    
+                    this.handlePaginationControl(totalPages);
+                    //////console.log('firstIndex='+firstIndex);
+                    //////console.log('lastRecord='+lastRecord);
+                    var pageDataSource = targetDataSource.slice(firstIndex, lastRecord);
+                    //////console.log('this.isClientSide='+this.isClientSide);
+                    //////console.log(pageDataSource);
+
+                    if (!this.isClientSide) {
+                        $j("#searchTable_{!controlId_p} tbody").html(template({objects : pageDataSource}));
+                    }
+                    else {
+                        $j("#searchTable_{!controlId_p} tbody").empty();
+                        //////console.log("pageDataSource.length="+pageDataSource.length);
+                        for (var z = 0; z < pageDataSource.length; z++) {
+                            var row = $j("<tr>").attr("class","tbody-row");
+                            for (var propertyName in pageDataSource[z]) {
+                                if (typeof propertyName != 'function') {
+                                    var cell = $j("<td>").attr("class","tbody-cell").html(pageDataSource[z][propertyName]);
+                                    row.append(cell);
+                                }
+                            }
+                            ////console.log(row);
+                            $j("#searchTable_{!controlId_p} tbody").append(row);
+                        }
+                        
+                    }
+                    
+                    /* setStatusImages(); */
+                    this.initSelectedObjectIds();
+                    $j("#chkMassSelect_{!controlId_p}").prop('checked', ($j(".{!controlId_p}chk-ids:checked").length == $j(".{!controlId_p}chk-ids").length));
+                }
+            }
+            
+
+            if ($j(".{!controlId_p}-datepicker").length > 0){
+                $j(".{!controlId_p}-datepicker").datepicker({ format: 'dd/mm/yyyy' }); 
+            }
+            
+            this.resizeHeaderCells();
+            if (typeof this.generateTableCustom == 'function') { this.generateTableCustom(); }
+        }
+
+        this.handlePaginationControl = function (totalPages) {
+           $j( "#imgFirstOff_{!controlId_p}" ).removeClass();
+            $j( "#imgPrevOff_{!controlId_p}" ).removeClass();
+            $j( "#imgNextOff_{!controlId_p}" ).removeClass();
+            $j( "#imgLastOff_{!controlId_p}" ).removeClass();
+
+            $j( "#spanFirstOff_{!controlId_p}" ).removeClass();
+            $j( "#spanPrevOff_{!controlId_p}" ).removeClass();
+            $j( "#spanNextOff_{!controlId_p}" ).removeClass();
+            $j( "#spanLastOff_{!controlId_p}" ).removeClass();
+            //
+            $j( "#spanFirstOff_{!controlId_p}").removeAttr( "onclick" );
+            $j( "#spanPrevOff_{!controlId_p}").removeAttr( "onclick" );
+
+            if (this.paginationCurrentPage < totalPages) {
+                $j( "#imgNextOff_{!controlId_p}" ).addClass("nextoff-yes");
+                $j( "#imgLastOff_{!controlId_p}" ).addClass("lastoff-yes");
+
+                $j( "#spanNextOff_{!controlId_p}" ).addClass("{!controlId_p}paginator-yes");
+                $j( "#spanLastOff_{!controlId_p}" ).addClass("{!controlId_p}paginator-yes");
+
+                $j( "#spanNextOff_{!controlId_p}" ).attr( "onclick", 'currentComponent_{!controlId_p}.goNextPage();');
+                $j( "#spanLastOff_{!controlId_p}" ).attr( "onclick", 'currentComponent_{!controlId_p}.goLastPage();');
+            }
+            else {
+                $j( "#imgNextOff_{!controlId_p}" ).addClass("nextoff-no");
+                $j( "#imgLastOff_{!controlId_p}" ).addClass("lastoff-no");
+
+                $j( "#spanNextOff_{!controlId_p}").removeAttr( "onclick" );
+                $j( "#spanLastOff_{!controlId_p}").removeAttr( "onclick" );
+            }
+
+            if (this.paginationCurrentPage > 1) {
+                $j( "#imgFirstOff_{!controlId_p}" ).addClass("firstoff-yes");
+                $j( "#imgPrevOff_{!controlId_p}" ).addClass("prevoff-yes");
+
+                $j( "#spanFirstOff_{!controlId_p}" ).addClass("{!controlId_p}paginator-yes");
+                $j( "#spanPrevOff_{!controlId_p}" ).addClass("{!controlId_p}paginator-yes");
+
+                $j( "#spanFirstOff_{!controlId_p}" ).attr( "onclick", 'currentComponent_{!controlId_p}.goFirstPage();');
+                $j( "#spanPrevOff_{!controlId_p}" ).attr( "onclick", 'currentComponent_{!controlId_p}.goPrevPage();');
+            }
+            else {
+                $j( "#imgFirstOff_{!controlId_p}" ).addClass("firstoff-no");
+                $j( "#imgPrevOff_{!controlId_p}" ).addClass("prevoff-no");
+
+                $j( "#spanFirstOff_{!controlId_p}").removeAttr( "onclick" );
+                $j( "#spanPrevOff_{!controlId_p}").removeAttr( "onclick" );
+            } 
+        }
+
+        this.getTableSelector = function (that, sortBy) {
+            var tSelector = "#searchTable_{!controlId_p}";
+            if (this.isScrollable) tSelector += "_header";
+            return  tSelector;
+        }       
+    
+        this.sortTable = function (that, sortBy) {
+            var tSelector = this.getTableSelector();
+            $j(tSelector+ " thead th" ).removeClass( "sort-desc" );
+            $j(tSelector+ " thead th" ).removeClass( "sort-asc" );
+            if (this.getSortBy() == sortBy) {
+                if (this.getSortDirection() == "DESC")
+                    this.setSortDirection("ASC");
+                else 
+                    this.setSortDirection("DESC");
+            }
+            this.setSortBy(sortBy);
+             if (this.isServerSide) {
+                this.refreshFromServer();
+            }
+            else {
+                this.generateTable();
+            }
+        }
+
+        this.setSortBy = function (propertyName) {
+            $j("#searchSortBy_{!controlId_p}").val(propertyName);
+        }
+
+        this.getSortBy = function () {
+            return $j("#searchSortBy_{!controlId_p}").val();
+        }
+
+        this.setSortDirection = function (directionValue) {
+            $j("#searchSortDirection_{!controlId_p}").val(directionValue);
+        }
+
+        this.getSortDirection = function () {
+            return $j("#searchSortDirection_{!controlId_p}").val();
+        }
+
+        this.doFilter = function (filterValue, that) {
+            $j(".{!controlId_p}filter-letter-box").removeClass("{!controlId_p}filter-letter-box-selected");
+            if (this.isServerSide) {
+                if (filterValue != "All") {
+                    var sSortBy = $j("#searchSortBy_{!controlId_p}").val(); 
+                    this.queryLetterFilter = sSortBy + " LIKE '" + filterValue + "%'";
+                }
+                else {
+                    this.queryLetterFilter = '';
+                }
+                this.refreshFromServer();
+            }
+            else {
+                /*
+                    ^ : Matches the starting position within the string.
+                    i : case insensitive
+                */
+                var matcher = new RegExp( "^" + filterValue, "i" );
+                if (arguments.length > 0) {
+                    if (filterValue == "All") this.filterObjectResult = null;
+                    else {
+                        var sSortBy = $j("#searchSortBy_{!controlId_p}").val();  
+                        this.filterObjectResult = $j.grep(this.searchObjectResult, function (c) { return matcher.test(c[sSortBy]); });
+                    }
+                    
+                }
+                else {
+                    this.filterObjectResult = null;
+                }
+                if (arguments.length > 1) $j(that).addClass("{!controlId_p}filter-letter-box-selected");
+                this.initRecordsPerPage();
+                this.goFirstPage();
+                this.generateTable();
+            }
+        }
+
+
+        this.doFilterMore = function () {   
+            if (this.isServerSide) {
+                var filterTxtList = new Array();
+                <apex:repeat value="{!resultColumnList}" var="item">
+                    this.prepareFilterByTxt(filterTxtList, "{!item}", '#txtFilter{!item}_{!controlId_p}');
+                </apex:repeat>
+                this.queryTxtFilter = filterTxtList.join(" AND ");
+
+                //this.goFirstPage(skipRefresfromServer);
+                this.refreshFromServer();
+            }
+            else {
+                this.goFirstPage();
+                this.generateTable();
+            }
+        }
+
+        this.prepareFilterByTxt = function (filterTxtList, propertyName, txtId) {
+            var filterValue = $j(txtId).val();
+            if (!this.isNullOrEmpty(filterValue)) {
+                filterTxtList.push(" " + propertyName + " LIKE '" + filterValue + "%' ");
+            }
+        }
+
+        this.doFilterByTxt = function (dataSource, propertyName, txtId) {
+            var filterValue = $j(txtId).val();
+            /*
+                ^ : Matches the starting position within the string.
+                i : case insensitive
+            */
+            //////console.log('propertyName='+propertyName);
+            //////console.log('txtId='+txtId);
+            //////console.log('filterValue='+filterValue);
+            if (!this.isNullOrEmpty(filterValue)) {
+                var matcher = new RegExp( "^" + filterValue, "i" );
+                return $j.grep(dataSource, function (c) { return matcher.test(c[propertyName]); });
+            }
+            else {
+                return dataSource;
+            }
+        }
+    
+        /**
+         * Selected Records
+        **/
+        this.getSelectedIds = function () {
+            return this.selectedIds;
+        }
+
+        this.selectObjectId = function (that) {
+            if (this.useRadio) {
+                this.selectedIds = new Array();
+                this.selectedIds.push(that.value);
+            }
+            else {
+                if (that.checked)
+                    this.selectedIds.push(that.value);
+                else {
+                    this.deselectObjectId(that.value);
+                }
+            }
+            /* this.doCustomAction */
+        }
+
+        this.deselectObjectId = function (recordId) {
+            var index = $j.inArray(recordId, this.selectedIds);
+            if (index >= 0) this.selectedIds.splice(index, 1);  
+        }
+
+        this.removeFromArray = function (arr, index) {
+            arr.splice(index, 1); 
+        }
+
+
+        this.getIndexOf = function (arr, propertyName, propertyValue) {
+            var result = -1;
+            for (var i = 0; i < arr.length; i++) {   
+                if (arr[i][propertyName] == propertyValue) {
+                    result = i;
+                    break; 
+                }
+
+            }
+            return result;
+        }
+
+        this.initSelectedObjectIds = function () {
+            if (this.selectedIds.length > 0) {
+                $j(".{!controlId_p}chk-ids").each(function(index, item) {
+                    if ($j.inArray(item.value, currentComponent_{!controlId_p}.selectedIds) >= 0)
+                        item.checked = true;
+                });
+            }
+        }
+
+        this.displayFilter = function () {
+            if ($j('#filterRow_{!controlId_p}').is(":visible") ) {
+                $j('#filterRow_{!controlId_p}').hide();
+                $j('.filter-txt').val('');
+                this.initRecordsPerPage();
+                this.goFirstPage();
+                this.generateTable();
+            }
+            else {
+                $j('#filterRow_{!controlId_p}').show();
+            }
+        }
+        
+        /**
+         * Trigger Methods
+         * @description: compile the handlebars page template
+         * @author By: Ricardo Visbal, 24-Mar-2014
+        **/
+        this.onCheckBox_Click = function (that) {
+          
+            this.selectObjectId(that);
+            if (typeof this.onCheckBox_ClickCustom == 'function') { this.onCheckBox_ClickCustom(that); }
+        }
+
+        this.onCheckBox_Change = function (that) {
+            //this.selectObjectId(that);
+            if (typeof this.onCheckBox_ChangeCustom == 'function') { this.onCheckBox_ChangeCustom(that); }
+        }
+
+
+        
+        /**
+         * Global
+         * @description: compile the handlebars page template
+         * @author By: Ricardo Visbal, 24-Mar-2014
+        **/
+        this.getTemplateValue = function (sourceTemplate, templateId) {
+            /*  compile the page template */
+            if (sourceTemplate == null)
+                sourceTemplate = $j(templateId).html(); 
+            return sourceTemplate;
+        }
+
+
+        this.isUndefined = function (v) {
+            if (v == undefined || typeof(v) == 'undefined' || v == 'undefined') {
+                return true;
+            }
+            return false;
+        }
+
+        this.isNullOrEmpty = function (v) {
+            if (v == null || v == undefined || typeof(v) == 'undefined' || v == 'undefined' || v == "") {
+                return true;
+            }
+            if (typeof v == 'number' && isNaN(v)) return true;
+            return false;
+        }
+
+
+        this.formatDecimal = function (v) {
+            var result = '0.00';
+            try {
+                result = v.toFixed(2);
+            }
+            catch (err) {}
+            return result;
+        }
+
+        this.isValidSearchElement = function (elementValue, elementId) {
+            if (elementValue == '' || elementValue.length < 1) {
+                $j(elementId).addClass('field-alert');
+                return false;
+            }
+            else {
+                $j(elementId).removeClass('field-alert');
+                return true;
+            }
+        }
+
+        this.getNumericValue = function (v) {
+            if (!this.isNullOrEmpty(v))
+                return parseFloat(v);
+            else
+                return null;
+        }
+
+        this.convertToString = function (s) {
+            var resultValue = '';
+            try {
+               resultValue = s.toString(); 
+            }
+            catch (err) {}
+            return resultValue;
+        }
+
+        this.onlyNumbers = function (e) {
+            var iKeyCode = this.getKeyCode(e);
+            var reValidChars = /\d/;
+            var isValid = true;
+            var strKey = String.fromCharCode(iKeyCode);
+            if (!reValidChars.test(strKey) && !(iKeyCode == null || iKeyCode == 0 || iKeyCode == 8 || iKeyCode == 9 || iKeyCode == 13 || iKeyCode == 27)) {
+                isValid = false;
+            }
+            return isValid;
+        }
+
+        this.getKeyCode = function (e) {
+            var iKeyCode;
+            if (window.event) {
+                /* IE */
+                e = window.event;
+                iKeyCode = e.keyCode;
+            }
+            else if (e.which) {
+                /* Netscape/Firefox/Opera */
+                if (arguments.length == 0) {
+                   e = window.event;
+
+                }
+                iKeyCode = e.which;
+            }
+            else if( typeof( e.charCode ) == 'number'  ) {
+                /* also NS 6+, Mozilla 0.9+ */
+                iKeyCode = e.charCode;
+            }
+            return iKeyCode;
+        }
+
+
+
+        /*
+        *  @description ERROR
+        *  @author Ricardo Visbal, Traction on Demand
+        *  @date 2014-Jan-01
+        */
+
+         this.showError = function (show, errorMessage) {
+            if (show) {
+                $j("#errorPanel_{!controlId_p}").show();
+                $j("#errorMsgContainer_{!controlId_p}").html(this.cleanErrorMessage(errorMessage));
+
+                if (typeof this.displaySpin == 'function') this.displaySpin(false);
+                if (this.spinner == null) $j(".spinner").empty();
+            }
+            else {
+                $j("#errorPanel_{!controlId_p}").hide();
+                $j("#errorMsgContainer_{!controlId_p}").html('');
+            }
+        }
+
+        this.cleanErrorMessage = function (errorMessage) {
+            var s = errorMessage;
+            if (errorMessage.indexOf("EXCEPTION,") > 0)
+                s = this.stripError("EXCEPTION,", errorMessage);
+
+            if (s != null && s != '')
+                s.replace(': []', '');
+            return s;
+        }
+
+        this.stripError = function (w, errorMessage) {
+            var r = errorMessage.split(w);  
+            var s = r[0];
+            if (r.length > 1 && r[1] != null && r[1] != '') s = r[1];
+            return s;
+        }
+
+
+        this.getRecord = function (id) {
+            return this.getRecordByProperty('Id',id);
+        }
+
+        this.getRecordByProperty = function (propertyName, propertyValue) {
+            var results = $j.grep(this.searchObjectResult, function (r) { return (r[propertyName] == propertyValue); })
+            return results[0];
+        }
+
+        <apex:outputPanel rendered="{!showActionColumn}" layout="none">
+        /*
+        *  @description ACTIONS
+        *  @author Ricardo Visbal, Traction on Demand
+        *  @date 2014-Jan-01
+        */
+        this.setEditMode = function (that, id, propertyName) {
+            var lookupValue = '';
+            var currentValue = that.value;
+            var spanSelectorId = this.buildId('#span' + propertyName, id);
+            if (!id.startsWith(this.const_new_id)) {
+                var result = this.getRecord(id);
+                lookupValue = result[propertyName];
+            }
+            var isTextInput = (typeof $j(spanSelectorId)[0].text != "undefined" && typeof $j(spanSelectorId)[0].text != undefined);
+            if (isTextInput) {
+                $j(spanSelectorId).text(currentValue);
+            }
+           
+
+            var hasChange = false;
+            if (that.type == 'checkbox' && this.convertToString(that.checked) != this.convertToString(lookupValue)) {
+                hasChange = true;
+                currentValue = this.convertToString(that.checked);
+                $j(that).val(currentValue);
+                if (that.checked) 
+                    $j(spanSelectorId).attr("src","/img/checkbox_checked.gif");
+                else 
+                    $j(spanSelectorId).attr("src","/img/checkbox_unchecked.gif");
+                //$j(spanSelectorId).text(currentValue);
+            }
+            else if (this.convertToString(currentValue) != this.convertToString(lookupValue)) {
+                hasChange = true;
+            }   
+            if (hasChange) {
+                this.setRecordAsModified(id);
+                $j(spanSelectorId).addClass("{!controlId_p}inlineEditModified");
+                 if (isTextInput) {
+                    $j(spanSelectorId).text(currentValue);
+                }
+                this.disableButton('#btnSave_{!controlId_p}', false);
+            }
+            else {
+                $j(spanSelectorId).removeClass("{!controlId_p}inlineEditModified");
+            }
+
+            if (typeof this.setEditModeCustom == 'function') { this.setEditModeCustom(that, id, propertyName); }
+        }
+
+        this.setRecordAsModified = function (id) {
+            $j('#hd{!controlId_p}Modified_'+ id).val('1');
+        }
+
+        this.setControlsEditMode = function (isEdit) {
+            if (isEdit) {
+                $j("#btnNew_{!controlId_p}").hide();
+                $j("#btnCancel_{!controlId_p}").show();
+                $j("#btnSave_{!controlId_p}").show();
+            }
+            else {
+                $j("#btnNew_{!controlId_p}").show();
+                $j("#btnCancel_{!controlId_p}").hide();
+                $j("#btnSave_{!controlId_p}").hide();
+            }
+        }
+
+        this.setChildClass = function (element, inputEditSelector, otherSelector, displaySelector, class1, class2) {
+            $j(element).find(inputEditSelector).removeClass(class1);
+            $j(element).find(inputEditSelector).addClass(class2);
+            $j(element).find(otherSelector).removeClass(class1);
+            $j(element).find(otherSelector).addClass(class2);
+            $j(element).find(displaySelector).removeClass(class2);
+            $j(element).find(displaySelector).addClass(class1);
+        }
+
+        this.disableButton = function (idSelector, isDisable) {
+            $j(idSelector).prop('disabled', isDisable);
+            if (isDisable)
+                $j(idSelector).addClass('{!controlId_p}-btnDisabled');
+            else
+                $j(idSelector).removeClass('{!controlId_p}-btnDisabled');
+        }
+
+        this.newRecord = function (id) {
+            this.showError(false);
+            this.setControlsEditMode(true);
+            this.disableButton('#btnSave_{!controlId_p}', false);
+            
+            $j("#newRow_{!controlId_p}").show();
+            $j(".{!controlId_p}-new-txt").val('');
+
+            if(typeof this.newCustom == 'function') { this.newCustom(id); }
+        }
+
+
+        this.editRecord = function (id) {
+            this.showError(false);
+            this.setControlsEditMode(true);
+            
+            if (id.startsWith(this.const_new_id) && !this.isNullOrEmpty(rowIndex)) id += this.getNumericValue(rowIndex);
+            var selectedRowId = this.buildId('dataRow', id);
+            $j("#searchTable_{!controlId_p} .tbody-row").each(function( index, element ) {
+
+                if (element.id == selectedRowId) {
+                    $j(element).addClass("{!controlId_p}-row-editable");
+                    $j(element).removeClass("{!controlId_p}-row-error");
+                    currentComponent_{!controlId_p}.setChildClass(element, ".{!controlId_p}-input-edit", ".{!controlId_p}-other-edit", ".{!controlId_p}-display", "{!controlId_p}-element-hide", "cp-element-show");
+                }
+                else {
+                    $j(element).removeClass("{!controlId_p}-row-editable");
+                    currentComponent_{!controlId_p}.setChildClass(element, ".{!controlId_p}-input-edit", ".{!controlId_p}-other-edit", ".{!controlId_p}-display", "{!controlId_p}-element-show", "{!controlId_p}-element-hide");
+                }
+            });
+
+            if (typeof this.editCustom == 'function') { this.editCustom(id); }
+        }
+
+        this.deleteRecord = function (id) {
+            this.showError(false);
+            if (window.confirm('Are you sure you want to delete this record?')) {
+                this.remoteDelete(id);
+            }
+
+            if (typeof this.deleteCustom == 'function') {this.deleteCustom(id);}
+        }
+
+        this.getElementValue = function (selectorId) {
+            if ($j(selectorId).is(':checkbox'))
+                return $j(selectorId).is(':checked');
+            else 
+                return $j(selectorId).val();
+        }
+
+        this.getModifiedRecords = function () {
+            var recordList = new Array;
+
+            $j(".{!controlId_p}-modified").each(function( index, element ) {
+                if ($j(element).val() == '1') {
+                    var id = $j(element).parent().find('.{!controlId_p}-Id').val();
+                    if (!currentComponent_{!controlId_p}.isNullOrEmpty(id)) {
+                        
+                        var existingRecord = {
+                            <apex:repeat value="{!controlDescriptionList}" var="cd">
+                            {!cd.HTMLName} : currentComponent_{!controlId_p}.getElementValue(currentComponent_{!controlId_p}.buildId('#txt{!cd.HTMLName}', id)),
+                            </apex:repeat>
+                            Id : id
+                        }
+                        
+                        recordList.push(existingRecord);
+                        
+                    }
+                }
+            });
+
+            /* add new: if visible */
+            if ($j("#newRow_{!controlId_p}").is(":visible")) {
+                var newRecord = {
+                    <apex:repeat value="{!controlDescriptionList}" var="cd">
+                    {!cd.HTMLName} : currentComponent_{!controlId_p}.getElementValue("#txtNew{!cd.HTMLName}_{!controlId_p}"),
+                    </apex:repeat>
+                    Id : this.const_new_id
+                }
+                
+                recordList.push(newRecord);
+                $j("#newRow_{!controlId_p}").hide();
+            }
+            return recordList;
+        }
+
+        this.saveRecord = function () {
+            this.setControlsEditMode(false);
+            
+            this.showError(false);
+            this.disableButton('#btnSave_{!controlId_p}', false);
+
+            var isValid = true;
+            var recordList = this.getModifiedRecords();
+            //console.log('recordList o%',recordList);
+            if (isValid && recordList.length > 0) {
+                this.remoteSave(recordList);
+            }
+
+            if (typeof this.saveCustom == 'function') {this.saveCustom();}
+        
+        }
+
+        this.reload = function () {
+            this.setControlsEditMode(false);
+            this.showError(false);
+            $j("#newRow_{!controlId_p}").hide();
+            this.generateTable();
+        }
+
+        this.cancel = function () {
+            this.reload();
+
+            if (typeof this.cancelCustom == 'function') {this.cancelCustom();}
+        }
+
+        this.buildId = function (controlId_p , id) {
+            return controlId_p + '_{!controlId_p}_' + id;
+        }
+
+        this.remoteSave = function (currentList, propertyList) {
+
+            this.displaySpin(true);
+            var objectParameter = this.reflectionSyncObjectList(currentList, propertyList);
+            var isValid = true;
+            if (isValid) {
+                Visualforce.remoting.Manager.invokeAction(
+                    this.SAVE_OBJECT, 
+                    this.sObjectName,
+                    JSON.stringify(objectParameter),
+                    function(result, event){
+                        if (event.status) {
+
+                            $j(result).each(function(index, sdfcObject) {
+                                //console.log(sdfcObject);
+                                var o = currentComponent_{!controlId_p}.getRecord(sdfcObject.Id);
+                                if (o != null) {
+                                    for (var propertyName in o) {   
+                                        o[propertyName] = sdfcObject[propertyName]; 
+                                    }
+                                }
+                                else {
+                                    currentComponent_{!controlId_p}.searchObjectResult.push(sdfcObject);
+                                }
+                            });
+
+                            currentComponent_{!controlId_p}.filterObjectResult = null;
+                            currentComponent_{!controlId_p}.goFirstPage();  
+                        } 
+                        else if (event.type  == 'exception') {
+                            currentComponent_{!controlId_p}.showError(true, event.message);
+                        } 
+                        else if (result == null) {
+
+                        }
+                        currentComponent_{!controlId_p}.displaySpin(false);
+                    },
+                    {escape: false}
+                );
+            }
+        }
+
+        this.remoteDelete = function (id) {
+
+            this.displaySpin(true);
+            var isValid = true;
+            
+            if (isValid) {
+                Visualforce.remoting.Manager.invokeAction(
+                    this.DELETE_OBJECT, 
+                    this.sObjectName,
+                    id,
+                    function(resultId, event){
+                        if (event.status) {
+                            /*REMOVE FROM LIST */
+                            currentComponent_{!controlId_p}.deleteFromArray(currentComponent_{!controlId_p}.searchObjectResult, resultId);
+                                
+                            currentComponent_{!controlId_p}.filterObjectResult = null;
+                            currentComponent_{!controlId_p}.goFirstPage();  
+                        } 
+                        else if (event.type  == 'exception') {
+                            currentComponent_{!controlId_p}.showError(true, event.message);
+                        } 
+                        else if (resultId == null) {
+
+                        }
+                        currentComponent_{!controlId_p}.displaySpin(false);
+                    },
+                    {escape: false}
+                );
+            }
+        }
+
+        
+
+       
+        </apex:outputPanel>
+
+
+        this.getNextOriginalIndex = function () {
+            var result = 0;
+            for(var i = 0; i < this.searchObjectResult.length; ++i) {
+                if (this.searchObjectResult[i]['_KEY'] > result ) {
+                    result = this.searchObjectResult[i]['_KEY'];
+                }
+            }
+            return result +1;
+           
+        }
+
+         this.reflectionSyncObjectList = function (currentList, propertyList, descriptionList) {
+            var resultList = new Array();
+            for (var i=0; i < currentList.length;i++)
+                resultList.push(this.reflectionSyncObject(currentList[i], propertyList, descriptionList));
+            return resultList;
+        }
+
+
+        this.reflectionSyncObject = function (currentObject, propertyList, descriptionList) {
+            var resultObject = new Object();
+            //console.log('arguments.length ='+arguments.length);
+            //console.log(currentObject);
+            //console.log(propertyList);
+            //console.log(descriptionList);
+            if (this.isUndefined(propertyList))
+                propertyList = this.getProperties();
+
+
+            var datePropertyList = this.getPropertyByInputTypeList('DATE', descriptionList);
+            var datetimeProperties = this.getPropertyByInputTypeList('DATETIME', descriptionList);
+            //var booleanProperties = this.getPropertyByInputTypeList('BOOLEAN', descriptionList);
+            propertyList.push("Id");
+            //console.log('propertyList o%',propertyList);
+           //console.log('currentObject o%',currentObject);
+            for (var propertyIndex in propertyList) {
+                var propertyName = propertyList[propertyIndex];
+                if (typeof propertyName != 'function') {
+                    ////////////console.log('propertyName ='+propertyName);
+                    var propList = propertyName.split("."); 
+                    ////////////console.log('propList.length ='+propList.length);
+                    if (propList.length == 1) {
+                        if (propertyName == "Id") {
+                            if (!currentObject[propertyName].startsWith(this.const_new_id)) {
+                                resultObject[propertyName] = this.getValue(currentObject[propList[0]]);
+                            }
+                        }
+                        else if (datePropertyList.indexOf(propertyName) >= 0 ) {
+                            ////////////console.log('currentObject[propertyName] ='+currentObject[propertyName]);
+                            if (!this.isNullOrEmpty(currentObject[propertyName]))
+                                resultObject[propertyName] = currentObject[propertyName].toISODate();
+                        }
+                        else if (datetimeProperties.indexOf(propertyName)  >= 0 ) {
+                            if (!this.isNullOrEmpty(currentObject[propertyName])) {
+                                var v = currentObject[propertyName];
+                                if (parseInt(v) != NaN) {
+                                    resultObject[propertyName] = parseInt(v).toISODatetime();
+                                }
+                                else {
+                                    resultObject[propertyName] = currentObject[propertyName].toISODatetime();
+                                }
+                            }
+                        }
+                        else {
+                            resultObject[propertyName] = this.getValue(currentObject[propList[0]]);
+                        }
+                    }
+                    
+                }
+            }
+            return resultObject;
+        }
+        
+        this.deleteFromArray = function (currentArray, id) {
+             /* deleted from memory */
+            for(var i = currentArray.length - 1; i >= 0; i--) {
+                var currentObject = currentArray[i];
+                if (currentObject.Id == id) {
+                    currentArray.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+
+
+        /*
+        *  @description SPINNER
+        *  @author Ricardo Visbal, Traction on Demand
+        *  @date 2014-Jan-01
+        */
+
+        this.spinner = null;
+        this.show_spinner = true;
+
+        this.displaySpin = function (isLoading) {
+            if (this.show_spinner) {
+                if (!isLoading) {
+                    $j('#{!controlId_p}Container').fadeTo('fast',1);
+                    if (this.spinner != null) {
+               
+                        this.spinner.spin(false);
+                        this.spinner = null;
+                    }
+                }
+                else {
+
+                    /*$j('#{!controlId_p}Container').css("height","730px");*/
+                    $j('#{!controlId_p}Container').fadeTo('fast',0.33);
+                    var opts = {
+                        lines: 13, 
+                        length: 20, 
+                        width: 10, 
+                        radius: 30, 
+                        corners: 1,
+                        rotate: 0, 
+                        direction: 1, 
+                        color: '#000',
+                        speed: 1, 
+                        trail: 60, 
+                        shadow: false, 
+                        hwaccel: false, 
+                        className: 'spinner', 
+                        zIndex: 2e9, 
+                        top: 'auto', 
+                        left: 'auto' 
+                    };
+                    var target = document.getElementById('{!controlId_p}Container');
+                    this.spinner = new Spinner(opts).spin(target);
+                }
+            }
+        }
+
+        /*
+        *  @description SCROLLABLE FUNCTIONs
+        *  @author Ricardo Visbal, Traction on Demand
+        *  @date 2014-April-14
+        */
+        this.resizeHeaderCells = function () {
+            if (currentComponent_{!controlId_p}.isScrollable) {
+                this.initHeaderCells("#searchTable_{!controlId_p} tbody tr:first-child td");
+                if (this.useFixedWidth) {
+                    this.initHeaderCells("#searchTable_{!controlId_p}_header thead tr:first-child th");
+                }
+                else if (currentComponent_{!controlId_p}.isScrollable) {
+                    var headerCells = $j("#searchTable_{!controlId_p}_header thead tr th");
+                    $j("#searchTable_{!controlId_p} tbody tr:first-child td").each(function(index, c) {
+                        var w = $j(c).width();
+                        $j(headerCells[index]).width($j(c).width());
+                        
+                    });
+                }
+            }
+            else {
+                this.initHeaderCells("#searchTable_{!controlId_p} thead tr:first-child th");
+            }
+        }
+
+            
+        this.getTableVisibleColumns = function (selectorId) {
+            var visibleColumnCount = 0;
+            $j(selectorId).each(function(index, c) {
+                if ($j(selectorId).is(":visible")) visibleColumnCount ++;
+            });
+            return visibleColumnCount;
+        }   
+
+        this.getFixedWidthPercentage = function (selectorId) {
+            var fixedWidth = 100 / this.getTableVisibleColumns();
+            return fixedWidth;
+        }   
+
+        this.initHeaderCells = function (selectorId) {
+            if (this.useFixedWidth) {
+                var fixedWidth = this.getFixedWidthPercentage(selectorId);
+                $j(selectorId).each(function(index, c) {
+                    if ($j(selectorId).is(":visible")) {
+                        $j(c).width(fixedWidth + '%');
+                    }
+                });
+            }
+            else {
+                var totalWidth = $j("#searchTable_{!controlId_p}").width();// - 35 - 61;
+                var dataIndex = 0;
+                $j(selectorId).each(function(index, c) {
+                    if (!$j(c).hasClass('col-selectors')) {
+                        var cd = currentComponent_{!controlId_p}.controlDescriptionListJSON[dataIndex];
+                        if (!currentComponent_{!controlId_p}.isUndefined(cd)) {
+                            var cw = totalWidth * (cd.FieldWidth/100);
+                            $j(c).width(cw); 
+                        }
+                        dataIndex ++;
+                    }
+                });
+            }
+        }
+
+
+
+        /* EXTENDED */
+
+        this.queryResult = new Array();
+
+        this.getQueryResult = function (id) {
+            var results = $j.grep(this.queryResult, function (r) { return (r.Id == id); })
+            return results[0];
+        }
+
+        this.queryServer = function () {
+            var q = this.columnList;
+            
+                Visualforce.remoting.Manager.invokeAction(
+                    this.SEARCH_OBJECT, 
+                    this.sObjectName,
+                    this.columnList,
+                    this.queryFilter,
+                    function(result, event){
+                        if (event.status) {
+                            currentComponent_{!controlId_p}.queryResult = result;
+                            currentComponent_{!controlId_p}.queryServerEnd(); 
+                        } 
+                        else if (event.type  == 'exception') {
+                            currentComponent_{!controlId_p}.showError(true, event.message);
+                        } 
+                        else if (result == null) {
+
+                        }
+                    },
+                    {escape: false}
+                );
+            
+        }
+
+        this.freeQueryServer = function (q, resultId) {
+            var startTime = new Date();
+                Visualforce.remoting.Manager.invokeAction(
+                    this.SEARCH_ANY_OBJECT, 
+                    q,
+                    function(result, event){
+                        if (event.status) {
+
+                            var endTime = new Date();
+                            var d = endTime - startTime;//milliseconds interval
+                            var r = {
+                                Id : resultId,
+                                Query : q,
+                                Duration : d,
+                                Result : result
+                            };
+                            currentComponent_{!controlId_p}.queryResult.push(r);
+                            currentComponent_{!controlId_p}.queryServerEnd(); 
+                        } 
+                        else if (event.type  == 'exception') {
+                            currentComponent_{!controlId_p}.showError(true, event.message);
+                        } 
+                        else if (result == null) {
+
+                        }
+                    },
+                    {escape: false}
+                );
+            
+        }
+
+        this.queryServerEnd = function () {
+            if (typeof this.queryServerEndCustom == 'function') {this.queryServerEndCustom();} 
+        }
+
+
+        this.queryValueResult = null;
+        this.getValueQueryServer = function (remoteActionName, q, nextEvent) {
+            //////console.log('getValueQueryServer q='+q);
+            var startTime = new Date();
+                Visualforce.remoting.Manager.invokeAction(
+                    remoteActionName, 
+                    q,
+                    function(result, event){
+                        ////console.log(event);
+                        if (event.status) {
+                            currentComponent_{!controlId_p}.queryValueResult = result;
+                            //////console.log('getValueQueryServer='+result);
+                            if (nextEvent != null) eval(nextEvent);
+                        } 
+                        else if (event.type  == 'exception') {
+                            currentComponent_{!controlId_p}.showError(true, event.message);
+                        } 
+                        else if (result == null) {
+
+                        }
+                    },
+                    {escape: false}
+                );
+            
+        }
+
+
+        this.freeSaveServer = function (currentList, sOName, resultId, customPropertyList, customDescribe ) {
+            var startTime = new Date();
+            var objectParameter = null
+            ////console.log(arguments.length);
+            if (arguments.length < 4) {
+
+                 objectParameter = this.reflectionSyncObjectList(currentList);
+            }
+            else {
+                objectParameter = this.reflectionSyncObjectList(currentList, customPropertyList, customDescribe);
+            }
+           
+            ////console.log(customPropertyList);
+            ////console.log(objectParameter);
+            Visualforce.remoting.Manager.invokeAction(
+                this.SAVE_OBJECT_With_Results, 
+                sOName,
+                JSON.stringify(objectParameter),
+                function(result, event){
+                    if (event.status) {
+                        var endTime = new Date();
+                        var d = endTime - startTime;//milliseconds interval
+                        var r = {
+                            Id : resultId,
+                            Query : event,
+                            Duration : d,
+                            Result : result
+                        };
+                        currentComponent_{!controlId_p}.queryResult.push(r);
+                        currentComponent_{!controlId_p}.saveServerEnd();
+                         
+                    } 
+                    else if (event.type  == 'exception') {
+                        currentComponent_{!controlId_p}.showError(true, event.message);
+                    } 
+                    else if (result == null) {
+
+                    }
+                    
+                },
+                {escape: false}
+            );
+            
+        }
+
+
+        this.saveServerEnd = function () {
+            if (typeof this.saveServerEndCustom == 'function') {this.saveServerEndCustom();}
+        }
+
+
+        /* Convert milliseconds to: 
+            var d, h, m, s;
+            s = Math.floor(ms / 1000);
+            m = Math.floor(s / 60);
+            s = s % 60;
+            h = Math.floor(m / 60);
+            m = m % 60;
+            d = Math.floor(h / 24);
+            h = h % 24;
+        */
+
+
+        this.generateJSON = function (jsonObject) {
+            this.isClientSide = true;
+            $j("#searchTable_{!controlId_p} thead").empty();
+            $j("#searchTable_{!controlId_p} tbody").empty();
+            var newColumnList = new Array();
+            var newControlDescriptionListJSON = new Array();
+            //var newJsonObject = new Array();
+            if (jsonObject != null && jsonObject.length > 0) {
+                var row = $j("<tr>").attr("class","thead-row");
+                var filterRow = $j("<tr>").attr("class","thead-filter-row").attr("id","filterRow_{!controlId_p}").attr("style","display: none;");
+                for (var propertyName in jsonObject[0]) {
+                    //var propertyName = jsonObject[propertyIndex];
+                    if (typeof propertyName != 'function' && !propertyName.endsWith('__r')) {
+                        //o[propertyName] = jsonObject[0][propertyName];
+                        
+                        var cell = $j("<th>").attr("class","thead-cell").attr("id" , "thead" + propertyName + "_{!controlId_p}")
+                                            .attr("onclick","javascript:currentComponent_{!controlId_p}.sortTable(this, '" + propertyName + "');")
+                                            .attr("id" , "thead" + propertyName + "_{!controlId_p}")
+                                            .html(propertyName);
+                        row.append(cell);
+
+                        var filterInput = $j("<input>").attr("type","text")
+                                                        .attr("class","filter-txt")
+                                                        .attr("alt",propertyName)
+                                                        .attr("id" , "txtFilter" + propertyName + "_{!controlId_p}")
+                                                        .attr("onkeyup" , "currentComponent_{!controlId_p}.doFilterMore();");
+
+                        var filterCell = $j("<th>").attr("class","thead-filter-cell")
+                                            .attr("id" , "theadFilter" + propertyName + "_{!controlId_p}")
+                                            .append(filterInput);
+                        filterRow.append(filterCell);
+                       
+                        newColumnList.push(propertyName);
+                        var typeValue = 'STRING';
+                        var d = {
+                            HeaderTitle : propertyName,
+                            QueryName : propertyName,
+                            HTMLName : propertyName,
+                            IsText : true,
+                            IsBoolean : false,
+                            InputType : 'STRING',
+                            FieldSize : 100
+                        };
+                        if (typeof jsonObject[0][propertyName] == "boolean") {
+                            d.IsText = false;
+                            d.IsBoolean = true;
+                            d.InputType = 'BOOLEAN';
+                        }
+                        newControlDescriptionListJSON.push(d);
+
+                        
+                    }
+                }
+                $j("#refresh_{!controlId_p}").hide();
+
+                $j("#searchTable_{!controlId_p} thead").append(row);
+                $j("#searchTable_{!controlId_p} thead").append(filterRow);
+                $j("#searchTable_{!controlId_p} .tfoot-cell").attr("colspan" , newControlDescriptionListJSON.length);
+                //newJsonObject.push(o);
+                $j("#searchTable_{!controlId_p} tfoot-cell").empty();
+                this.columnList = newColumnList.join(',');
+                this.controlDescriptionListJSON = newControlDescriptionListJSON;
+                this.searchObjectResult = jsonObject;
+
+                this.generateTable();
+            }
+        }
+
+        /* Returns the approximate memory usage, in bytes, of the specified object. 
+        *  Theparameter is:object - the object whose size should be determined */
+        function sizeOf(object) {
+            // initialise the list of objects and size
+            var objects = [object];
+            var size    = 0;
+            // loop over the objects
+            for (var index = 0; index < objects.length; index ++) {
+                // determine the type of the object
+                switch (typeof objects[index]) {
+                    // the object is a boolean
+                    case 'boolean': size += 4; break;
+                    // the object is a number
+                    case 'number': size += 8; break;
+                    // the object is a string
+                    case 'string': size += 2 * objects[index].length; break;
+                    // the object is a generic object
+                    case 'object':
+                    // if the object is not an array, add the sizes of the keys
+                    if (Object.prototype.toString.call(objects[index]) != '[object Array]') {
+                        for (var key in objects[index]) size += 2 * key.length;
+                    }
+                    // loop over the keys
+                    for (var key in objects[index]){
+                        // determine whether the value has already been processed
+                        var processed = false;
+                        for (var search = 0; search < objects.length; search ++){
+                            if (objects[search] === objects[index][key]){
+                                processed = true;
+                                break;
+                            }
+                        }
+                        // queue the value to be processed if appropriate
+                        if (!processed) objects.push(objects[index][key]);
+                    }
+                }
+            }
+            // return the calculated size
+            return size;
+        }
+
+    }
+
+    </script>
+    <script language="javascript">
+        Handlebars.registerHelper('isEquals', function(v1, v2, options) {
+            if(v1 === v2) {
+                return options.fn(this);
+            }
+        });
+
+        Handlebars.registerHelper("formatText", function(v, t) {
+            if (t == 'DATETIME')
+                return (new Date(v)).format('m/dd/yy hh:mm:ss');
+            else 
+                return v;
+        });
+
+    </script>
+    <script language="javascript">
+
+        var currentComponent_{!controlId_p} = new {!controlId_p}_ComponentUtils();
+
+        /**
+         * On Document Ready
+         * @description: 
+         * @author By: Ricardo Visbal, 24-Mar-2014
+        **/
+        $j(document).ready(function () {
+            currentComponent_{!controlId_p}.filterLetterTemplate = currentComponent_{!controlId_p}.getTemplateValue(currentComponent_{!controlId_p}.filterLetterTemplate, "#filterLetter_Handlebars_{!controlId_p}");
+            var source = currentComponent_{!controlId_p}.filterLetterTemplate;          
+            var template = Handlebars.compile(source); 
+            $j("#letterFilterPanel_{!controlId_p}").html(template({objects : currentComponent_{!controlId_p}.alphabet}));
+                
+            $j("#filterRow_{!controlId_p}").hide();
+            if (currentComponent_{!controlId_p}.queryOnPageLoad){
+                if (currentComponent_{!controlId_p}.isServerSide || currentComponent_{!controlId_p}.queryIsBatch) {
+                    currentComponent_{!controlId_p}.getTotalRecordsFromServer();
+                }
+                else {
+                    currentComponent_{!controlId_p}.remoteSearch();
+                }
+                
+            }
+
+            if (!currentComponent_{!controlId_p}.showLetterFilter) {
+                $j("#letterFilterPanel_{!controlId_p}").hide();
+            }
+            if (!currentComponent_{!controlId_p}.showListFilter) {
+                $j("#listFilterPanel_{!controlId_p}").hide();
+            }
+            if (currentComponent_{!controlId_p}.useRadio) {
+                $j("#chkMassSelect_{!controlId_p}").hide();
+            }
+            $j("#newRow_{!controlId_p}").hide();
+            if (currentComponent_{!controlId_p}.controlDescriptionListJSON != null && currentComponent_{!controlId_p}.controlDescriptionListJSON.length > 0){
+                $j("#searchSortBy_{!controlId_p}").val(currentComponent_{!controlId_p}.controlDescriptionListJSON[0].HTMLName);
+            }
+
+            if (currentComponent_{!controlId_p}.isScrollable) {
+                $j("#searchTable_{!controlId_p}_header thead").html($j("#searchTable_{!controlId_p} thead").html());
+                $j("#searchTable_{!controlId_p}_footer tfoot").html($j("#searchTable_{!controlId_p} tfoot").html());
+                $j("#searchTable_{!controlId_p}_header thead th").removeAttr("width");
+                $j("#searchTable_{!controlId_p} thead").empty();
+                $j("#searchTable_{!controlId_p} tfoot").empty();
+                currentComponent_{!controlId_p}.resizeHeaderCells();
+                //$j("#searchTable_{!controlId_p}_header").width($j("#searchTable_{!controlId_p}").width());
+                //$j("#searchTable_{!controlId_p}_footer").width($j("#searchTable_{!controlId_p}").width());
+
+                $j(window).resize(function () {
+                    currentComponent_{!controlId_p}.resizeHeaderCells();
+                });
+            }
+
+
+        });
+
+        
+        
+    
+    </script>
+    <script language="javascript">
+
+        
+
+    </script>
+    <style type="text/css">
+
+            .{!controlId_p}-button-panel {
+                text-align: center;
+            }
+
+            .{!controlId_p}inlineEditModified {
+                color: #ff6a00;
+                font-weight: bold;
+
+            }
+
+            .{!controlId_p}-btnDisabled
+            {
+                color: #B9B9B9;
+            }
+
+            .{!controlId_p}-input-edit {}
+
+            .{!controlId_p}-txt-edit {
+                width :90%; 
+            }
+
+            .{!controlId_p}-modified {}
+
+
+            .{!controlId_p}-element-show {}
+
+            .{!controlId_p}-display {}
+
+
+            .{!controlId_p}-element-hide
+            {
+                display: none;
+            }
+
+            .{!controlId_p}-row-editable
+            {
+                /*display: none;*/
+            }
+
+            .{!controlId_p}-row-new, .{!controlId_p}-row-editable {
+                background-color:#E2F1FC;
+            }
+
+            .{!controlId_p}-row-error {
+                background-color:#FFDFDF;
+            }
+
+            .{!controlId_p}-element-edited{
+                color: #ff6a00;
+                font-weight: bold;
+            }
+
+    </style>
+
+    <style type="text/css">
+
+            .{!controlId_p}col-check
+            {
+                {! IF(!showCheckColumn, 'display : none', '') }
+            }
+
+            .{!controlId_p}col-action
+            {
+                {! IF(!showActionColumn, 'display : none', '')  }
+            }
+
+            #searchTable_{!controlId_p} .tfoot-row {
+                {! IF(!showPagination, 'display : none', '')  }
+            }
+
+            #searchTable_{!controlId_p}_Panel {
+                {! IF(isScrollable, 'overflow-y: auto;height: 100px;', '')  }
+            }
+
+    </style>
+    </div>
+</apex:form>
+</apex:component>
