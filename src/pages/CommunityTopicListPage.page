@@ -1,0 +1,98 @@
+<apex:page controller="CommunityDiscussionController" showHeader="false">
+ <apex:form >
+   
+<apex:stylesheet value="{!URLFOR($Resource.topicdiscussion, 'topicdiscussion.css')}"/>
+       
+    <style>
+        ul {
+            columns: 2;
+            -webkit-columns: 2;
+            -moz-columns: 2;
+        }
+        
+        .topic {
+          display: inline-block;
+          width: 49.5%;
+          padding: 20px 30px 20px 0;
+          vertical-align: top;
+            
+        }
+         .main-column {
+            float: left;
+            max-width: 1340px;
+            width: 100%;
+            word-break: break-all;
+        }
+    </style>
+   <!-- <head>
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"/>
+
+       <apex:stylesheet value="{!URLFOR($Resource.slds1, 'assets/styles/salesforce-lightning-design-system.css')}" />
+         <style>
+            #loader {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                background: #000;
+                opacity: 0.6;
+                filter: alpha(opacity=100);
+                z-index: 99999;
+            }
+            .nav_bar{
+            margin-top: -3%;
+            text-align:right;
+        }
+        .nav_bar a{
+            color:white !important;
+            padding:5px;
+            padding-right:7px;
+            padding-left:7px;
+         }
+        
+
+        </style>
+ </head>
+    <apex:slds >
+    <apex:form >
+<div style="background-color:black;height:50px;">
+                <apex:image url="{!$Resource.logo}" width="4%" height="3%" style="background-color:black;text-align:left;"/><b style="color:white;font-size: 150%;">Community</b>
+                <div class="nav_bar">
+                <apex:commandlink value="Knowledge" onclick="{!knowl}" immediate="true" action="{!knowl}"/>&nbsp;&nbsp;
+                <apex:commandlink value="Docs" action="https://docs.pivotal.io/" immediate="true" />&nbsp;&nbsp;
+                <apex:commandlink value="Training" action="https://pivotal.io/training" immediate="true" />&nbsp;&nbsp;
+                <apex:commandlink value="Downloads" action="https://network.pivotal.io/" immediate="true" />&nbsp;&nbsp;
+                <apex:commandlink value="Account" rendered="{!IF(AND($Profile.Name !='Customer Registered User', $Profile.Name !='Customer Community Users',$Profile.Name !='pivotalcustomersupport Profile'), true, false)}" onclick="{!save}"  immediate="true" action="{!save}"/>&nbsp;
+                <apex:commandlink value="Contact" rendered="{!IF(AND($Profile.Name !='Customer Registered User', $Profile.Name !='Customer Community Users',$Profile.Name !='pivotalcustomersupport Profile'), true, false)}" onclick="{!con}"  immediate="true" action="{!con}"/>&nbsp;
+               <!--<apex:commandlink value="Case" rendered="{!IF(AND($Profile.Name !='Customer Registered User', $Profile.Name !='Customer Community Users',$Profile.Name !='demo Profile'), true, false)}" onclick="{!ca}"  immediate="true" action="{!ca}"/>&nbsp;
+                <apex:commandlink value="Case" rendered="{!IF(AND($Profile.Name !='Customer Registered User', $Profile.Name !='Customer Community Users',$Profile.Name !='pivotalcustomersupport Profile'), true, false)}"  action="/apex/PortalCaseCreation" reRender="out"/>&nbsp;
+                <apex:commandlink value="Community" onclick="{!foru}" immediate="true" action="{!foru}"/>&nbsp;&nbsp;
+                
+                
+                <apex:commandlink value="Login"  onclick="{!logi}"  immediate="true" action="{!logi}" rendered="{!IF(AND($Profile.Name =='pivotalcustomersupport Profile'), true, false)}"/>
+                </div>
+            </div>
+            </apex:form>
+             </apex:slds> -->
+    <c:Home ></c:Home>
+    <div class="main-column">
+    All
+    <ul style="list-style: none;" class="topic-list">
+        
+        <apex:repeat value="{!lstTopicWrapper}" var="topicWrapper">
+            <li class="topic">
+                <h3 class="topic-title">                    
+                    <a href="https://scqa-pivotal--scqa.cs19.force.com/pivotalcustomersupport/apex/CommunityDiscussionPage?tid={!topicWrapper.topic.Id}">{!topicWrapper.topic.Name}</a>
+                </h3><br />
+                <span class="topic-meta">
+                    <span>{!topicWrapper.followerCount} posts</span>
+                    <span>{!topicWrapper.postCount} followers</span>
+                </span>
+            </li>
+        </apex:repeat>
+    </ul>
+    </div>
+    
+   </apex:form>
+</apex:page>

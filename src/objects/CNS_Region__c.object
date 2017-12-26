@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>CNS_Rep__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>CNS Rep</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>CNS_Rep_Mapping</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Region__c</fullName>
+        <externalId>false</externalId>
+        <label>Region</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AMER Data Sales</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER Fed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER ISR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER Labs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER PDE</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER Sub Renewals</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER West</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ Australia New Zealand</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ Greater China</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ India</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ ISR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ Japan</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ Korea</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ South Asia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ Southeast Asia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Canada</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Central North</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Central South</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Central West</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA Central</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA France &amp; S Europe</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA ISR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA Labs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA MEA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA UKI</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Federal Civilian</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Federal DoD/Intel</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Biz Ops</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global CS Renewals</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global DS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global EDU</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Finance</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global GRO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global GSS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global IT</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Labs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Legal</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Marketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Partners</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Product Mgmt</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Product Ops</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global PS Project Ops</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Sales Productivity</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Labs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>LATAM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New England</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NY/NJ Global Financial Services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pacific Northwest</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pacific Southwest</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Southeast</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Telco / Media</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TOLA</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>CNS Region</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Region__c</columns>
+        <columns>CNS_Rep__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>C-{00}</displayFormat>
+        <label>CNS Region Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>CNS Regions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

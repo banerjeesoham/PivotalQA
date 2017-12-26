@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>AccountReq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AccountReq</shortDescription>
+        <value>Please select account</value>
+    </labels>
+    <labels>
+        <fullName>ArticleURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ArticleURL</shortDescription>
+        <value>https://scqa-pivotal--scqa.cs19.force.com/pivotalcustomersupport/</value>
+    </labels>
+    <labels>
+        <fullName>CommunityGuestUserProfileId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CommunityGuestUserProfileId</shortDescription>
+        <value>00e29000000DhixAAC</value>
+    </labels>
+    <labels>
+        <fullName>CommunityRegisteredUserProfileId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CommunityRegisteredUserProfileId</shortDescription>
+        <value>00e29000000DhbP</value>
+    </labels>
+    <labels>
+        <fullName>CommunityUserProfileId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CommunityUserProfileId</shortDescription>
+        <value>00e29000000DhbO</value>
+    </labels>
+    <labels>
+        <fullName>Community_support_url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community support url</shortDescription>
+        <value>/support/s/case/</value>
+    </labels>
+    <labels>
+        <fullName>ContactSupportLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ContactSupportLink</shortDescription>
+        <value>http://pivotalsupport.uberflipcontent.com/pdf-template-2/pivotal-support-contact-list</value>
+    </labels>
+    <labels>
+        <fullName>Custom_SLO</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This label will store Custom SLO</shortDescription>
+        <value>Custom SLO Handling</value>
+    </labels>
+    <labels>
+        <fullName>Customer_Engineers_Profiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Customer Engineers Profiles</shortDescription>
+        <value>00e29000000DhbQAAS
+00e29000000DhevAAC</value>
+    </labels>
+    <labels>
+        <fullName>Customer_Service_Profiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Customer Service Profiles</shortDescription>
+        <value>00e29000000DhbRAAS,00e29000000DheqAAC</value>
+    </labels>
+    <labels>
+        <fullName>Customer_Support_Users</fullName>
+        <categories>All Internal User</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Customer Support Users</shortDescription>
+        <value>00e29000000DhbQAAS
+00e29000000DhevAAC
+00e29000000DhbRAAS
+00e29000000DheqAAC
+00eU0000001A8azIAC
+00e29000000DhbTAAS</value>
+    </labels>
+    <labels>
+        <fullName>DCAv2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This label will store DCAv2</shortDescription>
+        <value>DCAv2Support</value>
+    </labels>
+    <labels>
+        <fullName>DescriptionReq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DescriptionReq</shortDescription>
+        <value>Please Enter Description</value>
+    </labels>
+    <labels>
+        <fullName>Developer_Support</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This label will store Developer Support value</shortDescription>
+        <value>Developer Support</value>
+    </labels>
+    <labels>
+        <fullName>Domain_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Domain URL</shortDescription>
+        <value>https://pivotal--scqa.cs19.my.salesforce.com/</value>
+    </labels>
+    <labels>
+        <fullName>Entitelmentreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Entitelmentreq</shortDescription>
+        <value>Please Select Entitlement</value>
+    </labels>
+    <labels>
+        <fullName>Environmentreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Environmentreq</shortDescription>
+        <value>Please Select Environment</value>
+    </labels>
+    <labels>
+        <fullName>FeedPostForEhspSupport</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FeedPostForEhspSupport</shortDescription>
+        <value>**Please note that certain EH/SP clients will not be able to share logs or data with support team and can not attend a WebEx session due to their internal security requirements!** 
+
+For EH/SP customer communications: Please use below verbiage in your correspondence with EH/SP clients: 
+
+Please upload your logs via below encrypted URL accessible to US Citizen on US Soil, when and IF your organization permits such log sharing with Pivotal Support team!</value>
+    </labels>
+    <labels>
+        <fullName>Newline</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Newline</shortDescription>
+        <value>-
+-</value>
+    </labels>
+    <labels>
+        <fullName>Nontechnical</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Non-Technical</shortDescription>
+        <value>012290000000ERyAAM</value>
+    </labels>
+    <labels>
+        <fullName>On_Demand_Support_Service</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This label will store On Demand Support Service</shortDescription>
+        <value>On Demand Support</value>
+    </labels>
+    <labels>
+        <fullName>PCN_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PCN Validation</shortDescription>
+        <value>00329000008nammAAA</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Support</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This label will store On PWS Support</shortDescription>
+        <value>PWS Support</value>
+    </labels>
+    <labels>
+        <fullName>Pivotal_Customer_Engineering</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pivotal - Customer Engineering</shortDescription>
+        <value>00e29000000DhbQAAS</value>
+    </labels>
+    <labels>
+        <fullName>Pivotal_Customer_Service</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pivotal - Customer Service</shortDescription>
+        <value>00e29000000DhbRAAS</value>
+    </labels>
+    <labels>
+        <fullName>Pivotal_Software</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pivotal Software</shortDescription>
+        <value>0012900000BmcQ3AAJ</value>
+    </labels>
+    <labels>
+        <fullName>PortalAccountURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PortalAccountURL</shortDescription>
+        <value>https://scqa-pivotal--scqa.cs19.force.com/pivotalcustomersupport/001/o</value>
+    </labels>
+    <labels>
+        <fullName>PortalCaseURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PortalCaseURL</shortDescription>
+        <value>https://scqa-pivotal--scqa.cs19.force.com/pivotalcustomersupport/500/o</value>
+    </labels>
+    <labels>
+        <fullName>PortalContactURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PortalContactURL</shortDescription>
+        <value>https://scqa-pivotal--scqa.cs19.force.com/pivotalcustomersupport/003/o</value>
+    </labels>
+    <labels>
+        <fullName>PortalUserTypeLicense</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PortalUserTypeLicense</shortDescription>
+        <value>PowerCustomerSuccess</value>
+    </labels>
+    <labels>
+        <fullName>Portal_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Portal URL</shortDescription>
+        <value>https://scqa-pivotal--scqa.cs19.force.com/support/s/case/</value>
+    </labels>
+    <labels>
+        <fullName>Portalcommunityid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Portalcommunityid</shortDescription>
+        <value>0DB290000004CKBGA2</value>
+    </labels>
+    <labels>
+        <fullName>Premium_Support_Services</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This label store Premium Support Services value</shortDescription>
+        <value>Premium Support</value>
+    </labels>
+    <labels>
+        <fullName>Registered_User</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Registered User</shortDescription>
+        <value>0012900000BmcraAAB</value>
+    </labels>
+    <labels>
+        <fullName>Request_Update_notified</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request Update notified</shortDescription>
+        <value>Your case update request has been notified to</value>
+    </labels>
+    <labels>
+        <fullName>Request_Update_on_Closed_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request Update on Closed Case</shortDescription>
+        <value>Your cannot request update on closed case</value>
+    </labels>
+    <labels>
+        <fullName>Request_Update_this_case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request Update this case</shortDescription>
+        <value>You cannot request update on this case</value>
+    </labels>
+    <labels>
+        <fullName>Severity_2_24_7_Support</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This is used to store Severity 2 – 24/7 Support entitlement Process</shortDescription>
+        <value>Severity 2 – 24/7 Support</value>
+    </labels>
+    <labels>
+        <fullName>SolvedCaseEmailMessageText1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SolvedCaseEmailMessageText1</shortDescription>
+        <value>Your request</value>
+    </labels>
+    <labels>
+        <fullName>SolvedCaseEmailMessageText2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SolvedCaseEmailMessageText2</shortDescription>
+        <value>has been solved. To reopen this request, reply to this email or click this link</value>
+    </labels>
+    <labels>
+        <fullName>SolvedCaseEmailMessageText3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SolvedCaseEmailMessageText3</shortDescription>
+        <value>**Please click on button below to answer a short SURVEY on how we did.**</value>
+    </labels>
+    <labels>
+        <fullName>SolvedCaseEmailMessageText4</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SolvedCaseEmailMessageText4</shortDescription>
+        <value>How easy was it to get help with your issue from Pivotal Support?</value>
+    </labels>
+    <labels>
+        <fullName>SolvedCaseEmailMessageText5</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SolvedCaseEmailMessageText5</shortDescription>
+        <value>Re:</value>
+    </labels>
+    <labels>
+        <fullName>Special_Practices_CSR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This label is used to store id of Special_Practices_CSR queue</shortDescription>
+        <value>00G29000000ewHy</value>
+    </labels>
+    <labels>
+        <fullName>Subjectreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Subjectreq</shortDescription>
+        <value>Please enter subject</value>
+    </labels>
+    <labels>
+        <fullName>Techcasevalidation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Techcasevalidation</shortDescription>
+        <value>you dont have permission to create technical case</value>
+    </labels>
+    <labels>
+        <fullName>Technical</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Technical</shortDescription>
+        <value>012290000000ERzAAM</value>
+    </labels>
+    <labels>
+        <fullName>TopicpageUrl</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TopicpageUrl</shortDescription>
+        <value>https://scqa-pivotal--scqa.cs19.force.com/pivotalcustomersupport/apex/Topicdetail</value>
+    </labels>
+    <labels>
+        <fullName>Validbuisnessid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Validbuisnessid</shortDescription>
+        <value>Internal Users are not allowed to register as a Portal User.</value>
+    </labels>
+    <labels>
+        <fullName>ZQuote_Help</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ZQuote First Page Help</shortDescription>
+        <value>.</value>
+    </labels>
+    <labels>
+        <fullName>communityurl</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>communityurl</shortDescription>
+        <value>https://scqa-pivotal--scqa.cs19.force.com/pivotalcustomersupport/apex/CommunityTopicListPage</value>
+    </labels>
+    <labels>
+        <fullName>customer_service_queue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>customer service queue</shortDescription>
+        <value>00G29000000ewHn</value>
+    </labels>
+    <labels>
+        <fullName>firstname_is_required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>First name is required while registering</shortDescription>
+        <value>First name is required.</value>
+    </labels>
+    <labels>
+        <fullName>trac_PricebookSelection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>trac_PricebookSelection</shortDescription>
+        <value>Select Pricebook:</value>
+    </labels>
+    <labels>
+        <fullName>trac_ProductFamily</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>trac_ProductFamily</shortDescription>
+        <value>Select Product Family:</value>
+    </labels>
+    <labels>
+        <fullName>trac_SellingMotion</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>trac_SellingMotion</shortDescription>
+        <value>Select Selling Motion:</value>
+    </labels>
+    <labels>
+        <fullName>trac_Years</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>trac_Years</shortDescription>
+        <value>Select Year(s):</value>
+    </labels>
+</CustomLabels>

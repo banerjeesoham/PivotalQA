@@ -1,0 +1,73 @@
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" >
+    <head>
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"/>
+        <style>
+        input, textarea, select, button {
+            text-rendering: auto;
+            color: initial;
+            letter-spacing: normal;
+            word-spacing: normal;
+            text-transform: none;
+            text-indent: 0px;
+            text-shadow: none;
+            display: inline-block;
+            text-align: start;
+            margin: 0em;
+            font: 13.3333px Arial;
+        }
+        </style>
+    </head>
+    <apex:stylesheet value="{!URLFOR($Resource.topicdiscussion, 'topicdiscussion.css')}"/>
+    <form role="search" class="search" data-search="" action="/hc/en-us/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><input type="search" name="query" id="query" placeholder="Search" aria-label="Search" />
+<input type="submit" name="commit" value="Search" /></form>
+  <apex:form >
+  <div class="clearfix">
+  <h1>What is your post about?</h1>
+  <div class="main-column">
+    <div class="form">
+      <form data-form="" class="new_community_post" action="/hc/en-us/community/posts" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="VwTvVNCEbPymKKy3isJj03en7rIRHCG1gIIQN+pgXG7dd9xW0vXAzg7YpRZ2W8XL5Bj1cf6R0hZcs6odDXHbXw==" />
+        <div class="form-field required">
+          <label for="community_post_title">Title</label>
+          <input type="text" name="community_post[title]" id="community_post_title" placeholder="" />
+          
+        </div>
+
+        <div class="searchbox" data-hc-class="searchbox" data-hc-suggestion-list="true"></div>
+
+        <div class="form-field ">
+          <label for="community_post_details">Details</label>
+          <textarea name="community_post[details]" id="community_post_details" placeholder="" data-helper="wysiwyg">
+        </textarea>
+          
+        </div>
+
+        <div class="form-field required">
+          <label for="community_post_topic_id">Topic</label>
+          <select name="community_post[topic_id]" id="community_post_topic_id"><option value="">-</option>
+                <option value="200053128">MADlib Forum</option>
+                <option value="200053088">Pivotal Chorus Forum</option>
+                <option value="200053118">Pivotal Cloud Foundry®</option>
+                <option value="200053218">Pivotal GemFire Forum</option>
+                <option value="200053178">Pivotal GemFire XD / SQLFire Forum</option>
+                <option value="200053148">Pivotal GPText Forum</option>
+                <option value="200083628">Pivotal Greenplum DB Forum</option>
+                <option value="200053048">Pivotal HD Forum</option>
+                <option value="200053198">Pivotal RabbitMQ Forum</option>
+                <option value="200053228">Pivotal SQLFire Forum</option>
+                <option value="200053138">Pivotal tc Server Forum</option>
+                <option value="200053158">Pivotal VRP Forum</option>
+                <option value="200053208">Pivotal Web Server Forum</option>
+                <option value="200053188">Spring Forum</option>
+                <option value="200053068">vFabric Suite Forum</option></select>
+          
+        </div>
+
+        <footer><input type="submit" name="commit" value="Submit" /></footer>
+      </form>
+    </div>
+  </div>
+</div>
+
+  </apex:form>
+
+</apex:page>

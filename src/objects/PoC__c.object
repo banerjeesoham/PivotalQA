@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Proof of Concept instances for Field Engineering</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Account__c</fullName>
+        <externalId>false</externalId>
+        <formula>Opportunity__r.Account.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Account</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>End Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Location__c</fullName>
+        <externalId>false</externalId>
+        <label>Location</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Customer Site</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Amazon Web Services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Century Link</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Durham</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Google Cloud Platform</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Google Compute</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>HP Helion</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Microsoft Azure</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OpenStack - Customer Premises</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OpenStack - Service Provider</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Verizon</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VMware vCHS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VMware vSphere - Customer Premises</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VMware vSphere - Service Provider</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other Service Provider</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Opportunity_Stage__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Opportunity__r.StageName)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Opportunity Stage</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <externalId>false</externalId>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>PoCs</relationshipLabel>
+        <relationshipName>PoCs</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>PCF_Services__c</fullName>
+        <externalId>false</externalId>
+        <label>PCF Services</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>App Analytics</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>App Distribution</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Concourse</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Data Sync</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gemfire for PCF</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kafka for PCF</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MongoDB</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MySQL</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Neo4j</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pivotal Tracker</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Push Notifications</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>RabbitMQ</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Redis</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Riak CS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Session State Caching</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Single Sign-On</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Cloud Services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Insight</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SpringXD</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Paid_PoC_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Paid PoC Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Paid_PoC__c</fullName>
+        <externalId>false</externalId>
+        <label>Paid PoC?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>No</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>PoC_Closed_Detail__c</fullName>
+        <externalId>false</externalId>
+        <label>PoC Closed Detail</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>PoC_Phasex__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Active</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Cancelled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Delayed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Do Nothing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Qualified Out</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tech Loss</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tech Win</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Waiting for Customer Decision</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Plan</controllingFieldValue>
+                <controllingFieldValue>Execute</controllingFieldValue>
+                <valueName>Active</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Cancelled</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Delayed</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Do Nothing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Qualified Out</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Tech Loss</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Tech Win</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Waiting for Customer Decision</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>PoC_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>&apos;PoC: &apos; + Opportunity__r.Account_Name__c + &apos; / &apos; + Opportunity__r.Name</formula>
+        <label>PoC Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PoC_Owner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>PoC Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>PoCs</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>PoC_Partner__c</fullName>
+        <externalId>false</externalId>
+        <label>PoC Partner</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PoC_Phasex__c</fullName>
+        <externalId>false</externalId>
+        <label>PoC Phase</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Plan</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Execute</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Closed</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>PoC_Primary_Technical_Team__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Select the primary team executing the PoC.</inlineHelpText>
+        <label>PoC Primary Technical Team</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Core FE</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>PDE</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Data Science</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Primary_Product__c</fullName>
+        <externalId>false</externalId>
+        <label>Primary Product</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Concourse</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gemfire</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GPDB</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Hawq</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PHD</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PivotalCF</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>RabbitMQ</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Boot</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Cloud</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Cloud Data Flow</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SpringXD</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Public_Cloud_Cost__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the estimated or actual public cloud cost for AWS, Google Compute or HP Helion.</inlineHelpText>
+        <label>Public Cloud Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Secondary_Product__c</fullName>
+        <externalId>false</externalId>
+        <label>Secondary Product</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Concourse</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gemfire</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GPDB</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Hawq</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PHD</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PivotalCF</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>RabbitMQ</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Boot</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Cloud</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Cloud Data Flow</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SpringXD</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Start Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Success_Criteria__c</fullName>
+        <externalId>false</externalId>
+        <label>Summary / Goals</label>
+        <length>100000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Tertiary_Product__c</fullName>
+        <externalId>false</externalId>
+        <label>Tertiary Product</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Concourse</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gemfire</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GPDB</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Hawq</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PHD</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PivotalCF</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>RabbitMQ</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Boot</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Cloud</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spring Cloud Data Flow</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SpringXD</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Third_Party_Product__c</fullName>
+        <externalId>false</externalId>
+        <label>Third Party Product</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AppDynamics</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Artifactory</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CloudBees</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CloudBees Jenkins Enterprise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CloudBees Jenkins Operations Center</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cognos</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dynatrace</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GitLab</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Grails</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Groovy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Informatica</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Microstrategy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New Relic</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spinnaker</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tableau</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <label>PoC</label>
+    <nameField>
+        <displayFormat>PoC-{00000}</displayFormat>
+        <label>PoC Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>PoCs</pluralLabel>
+    <searchLayouts>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>PoC_Owner__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>PoC_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>PoC_Phasex__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>PoC_Closed_Detail__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Location__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Start_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>End_Date__c</lookupDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>PoC_Name__c</searchFilterFields>
+        <searchFilterFields>PoC_Owner__c</searchFilterFields>
+        <searchFilterFields>PoC_Phasex__c</searchFilterFields>
+        <searchFilterFields>PoC_Closed_Detail__c</searchFilterFields>
+        <searchFilterFields>Location__c</searchFilterFields>
+        <searchFilterFields>Start_Date__c</searchFilterFields>
+        <searchFilterFields>End_Date__c</searchFilterFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Paid_PoC_Amount_Required</fullName>
+        <active>true</active>
+        <description>If Paid PoC, then Paid PoC Amount Required</description>
+        <errorConditionFormula>TEXT (Paid_PoC__c) = &quot;Yes&quot; &amp;&amp;  Paid_PoC_Amount__c = 0</errorConditionFormula>
+        <errorDisplayField>Paid_PoC_Amount__c</errorDisplayField>
+        <errorMessage>If Paid PoC, then Paid PoC Amount Required</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>PoCClosedDetails_required_if_PhaseClosed</fullName>
+        <active>true</active>
+        <errorConditionFormula>ISBLANK( TEXT(PoC_Closed_Detail__c )) &amp;&amp;  TEXT(PoC_Phasex__c) = &quot;Closed&quot;</errorConditionFormula>
+        <errorDisplayField>PoC_Closed_Detail__c</errorDisplayField>
+        <errorMessage>Please select a value for PoC Closed Details when closing the PoC</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>PoC_Partner_Required</fullName>
+        <active>true</active>
+        <description>PoC Partner Name required if PoC Primary Technical Team equals Partner</description>
+        <errorConditionFormula>TEXT ( PoC_Primary_Technical_Team__c ) = &quot;Partner&quot; &amp;&amp;   ISBLANK (PoC_Partner__c)</errorConditionFormula>
+        <errorDisplayField>PoC_Partner__c</errorDisplayField>
+        <errorMessage>PoC Partner Name required if PoC Primary Technical Team equals Partner</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Public_Cloud_Cost_is_Required</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR (TEXT  (Location__c) = &quot;Google Compute&quot;, TEXT  (Location__c) =&quot;AWS&quot;, TEXT  (Location__c) =&quot;HP&quot;) 
+&amp;&amp;  Public_Cloud_Cost__c  = 0</errorConditionFormula>
+        <errorDisplayField>Public_Cloud_Cost__c</errorDisplayField>
+        <errorMessage>If Location is AWS, Google Compute or HP, then Public Cloud Cost is required.</errorMessage>
+    </validationRules>
+</CustomObject>

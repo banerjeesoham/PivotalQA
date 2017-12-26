@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Mapping of ISR to Region to tag Named Accounts with ISRs for lead routing</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>ISRId__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>ISR</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>User.IsActive</field>
+                <operation>equals</operation>
+                <value>True</value>
+            </filterItems>
+            <isOptional>true</isOptional>
+        </lookupFilter>
+        <referenceTo>User</referenceTo>
+        <relationshipName>ISR_Regions</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Region__c</fullName>
+        <externalId>false</externalId>
+        <label>Region</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AMER Data Sales</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER East</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER Fed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER ISR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER Labs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER PDE</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER Sub Renewals</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AMER West</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ ISR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>APJ Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Australia New Zealand</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Canada</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Central North</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Central South</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Central West</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA Central</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA France &amp; S Europe</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA ISR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA Labs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA MEA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA UKI</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Federal Civilian</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Federal DoD/Intel</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global CS Renewals</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Labs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Greater China</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>India</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Industrials</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Japan</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Korea</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Labs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>LATAM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New England</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NY/NJ General Markets</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NY/NJ Global Financial Services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pacific Northwest</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pacific Southwest</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Southeast</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Southeast Asia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Telco / Media</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TOLA</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>ISR Region</label>
+    <listViews>
+        <fullName>AMER_ISR_Mapping</fullName>
+        <columns>ISRId__c</columns>
+        <columns>Region__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Region__c</field>
+            <operation>notContain</operation>
+            <value>EMEA</value>
+        </filters>
+        <label>AMER ISR Mapping</label>
+    </listViews>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>ISRId__c</columns>
+        <columns>Region__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All ISR Mappings</label>
+    </listViews>
+    <nameField>
+        <displayFormat>IR-{000}</displayFormat>
+        <label>ISR Region Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>ISR Regions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

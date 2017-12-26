@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>.NET Client</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>.NET Core</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Admin REST API</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Advisors</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>API</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>API server</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Async Event Queue</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>AWS</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>AWS ELB</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>AWS Service Broker</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Azure</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Azure LB</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Azure Service Broker</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Binary</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Bosh</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Brain</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Buildpack Upgrade</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>C++ Client</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Cache Server</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Callbacks (Listener/Writer)</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Cell</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>ClamAV addon for PCF</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>CLI</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Client Locator</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Client Queues</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Client Subscriptions</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Clock Gobal</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Cloud Cache</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Cluster Configuration</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Compatibility Framework</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Compression</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Concourse for PCF</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Container Networking</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>CQ&apos;s</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Database</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Delta Propagation</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Developer REST API</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Director</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Distributed Lock Service</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Downloads</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Entry Versioning</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Eviction</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Expiration</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>F5</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>File Integrity addon for PCF</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Functions</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>GCP</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>GCP LB</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>GCP Service Broker</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>GemFire Tile</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>General</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>GFSH</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>GII</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Go</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Go Router</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>HAProxy - ERT</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>HAProxy - External</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Hibernate L2 Cache</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Indexing</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>IPsec</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Java</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Java Client</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>JMX</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>JSON</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Logging</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Lucene</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Manifests</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Membership</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>MySQL for PCF</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Native Library</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Nginx</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Node.js</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>NodeJS</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Offheap</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>On-demand Service broker</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ops Metrics Log Search</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ops Mgr Upgrade on AWS</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ops Mgr Upgrade on Azure</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ops Mgr Upgrade on GCP</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ops Mgr Upgrade on vSphere</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>OQL</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>P2P Messaging</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Parititioning</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF Metrics</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF on AWS</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF on Azure</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF on GCP</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF on Openstack</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PCF on vSphere</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PDX</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Peer Locator</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Permissions</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Persistence</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>PHP</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Pulse</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Push Notifications</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Python</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>QuickStart</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>RabbitMQ for PCF</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>REDIS Adapter</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Redis for PCF</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Regions</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Register Interest</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Resource Manager</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Route Services</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Ruby</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>s3</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Scheduler for PCF</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Security</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Service Backup SDK</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Service Broker</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Snapshot</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Spark Connector</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Spring Cloud Services</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Staticfile</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Statistics</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Stemcell</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>TCP Router</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Tempest</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Tile Upgrade</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Transactions</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>UAA</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>VMware NSX</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Volume Driver</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>WAN</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>WAN Locator</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>webdav</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Worker</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+    </customValue>
+    <masterLabel>Sub Component</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
